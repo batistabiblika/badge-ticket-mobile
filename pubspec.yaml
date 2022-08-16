@@ -1,5 +1,5 @@
 name: fbb_reg_ticket
-description: A new Flutter project.
+description: Badget et Ticket FBB
 
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
@@ -35,6 +35,8 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
   http: ^0.13.4
+  shared_preferences: ^2.0.15
+  dio: ^4.0.6
 
 dev_dependencies:
   flutter_test:
@@ -59,8 +61,8 @@ flutter:
   uses-material-design: true
 
   # To add assets to your application, add an assets section, like this:
-  # assets:
-  #   - images/a_dot_burr.jpeg
+  assets:
+    - assets/images/placeholder-square.png
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

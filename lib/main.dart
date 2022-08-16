@@ -1,11 +1,17 @@
 // import 'package:fbb_reg_ticket/home.dart';
 import 'package:fbb_reg_ticket/screens/consume_meal_screen.dart';
 import 'package:fbb_reg_ticket/screens/consume_meal_validated_screen.dart';
-import 'package:fbb_reg_ticket/screens/scan_meal_ticket_form_screen.dart';
+import 'package:fbb_reg_ticket/screens/home_screen/home_screen.dart';
+import 'package:fbb_reg_ticket/screens/scan_badge_screen/scan_badge_screen.dart';
+import 'package:fbb_reg_ticket/screens/scan_meal_screen/configure_meal_ticket_screen.dart';
+import 'package:fbb_reg_ticket/screens/scan_meal_screen/scan_meal_ticket_screen.dart';
 import 'package:fbb_reg_ticket/res/values.dart';
+import 'package:fbb_reg_ticket/screens/scan_meal_screen/verify_meal_ticket_screen.dart';
+import 'package:fbb_reg_ticket/screens/setting_screen/setting_screen.dart';
 import 'package:flutter/material.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(const MyApp());
 }
 
@@ -18,12 +24,26 @@ class MyApp extends StatelessWidget {
     return MaterialApp(title: 'Flutter Demo', theme: _lightTheme(),
         // home: const HomeTicket(title: 'Ticket Sakafo Home'),
         routes: {
-          '/': (BuildContext ctx) => ScanMealTicketFormScreen(),
-          '/consume_meal': (BuildContext ctx) => ConsumeMealScreen(
+          '/': (BuildContext ctx) => const HomeScreen(),
+          '/scan_meal_ticket': (BuildContext ctx) =>
+              const ScanMealTicketScreen(),
+          '/verify_meal_ticket': (BuildContext ctx) =>
+              const VerifyMealTicketScreen(),
+
+          '/consume_meal': (BuildContext ctx) => const ConsumeMealScreen(
                 ticketNumber: '001A',
               ),
           '/consume_validated': (BuildContext ctx) =>
-              ConsumeMealValidatedScreen(),
+              const ConsumeMealValidatedScreen(isSuccess: true),
+          '/consume_refused': (BuildContext ctx) =>
+              const ConsumeMealValidatedScreen(isSuccess: false),
+
+          '/scan_badge': (BuildContext ctx) => const ScanBadgeScreen(),
+
+          // configuration
+          '/config_meal': (BuildContext ctx) =>
+              const ConfigureMealTicketScreen(),
+          '/settings': (BuildContext ctx) => const SettingScreen(),
         });
   }
 
@@ -33,6 +53,7 @@ class MyApp extends StatelessWidget {
         brightness: Brightness.light,
         primaryColor: Colors.white,
         scaffoldBackgroundColor: AppColors.WHITE,
+        useMaterial3: false,
 
         // fontFamily
         // fontFamily: 'Georgia',

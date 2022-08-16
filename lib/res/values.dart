@@ -9,6 +9,7 @@ class AppColors {
   static const Color PRIMARY30 = Color(0x4D374355);
   static const Color PRIMARY70 = Color(0xB2374355);
   static const Color WHITE = Color(0xFFFFFFFF);
+  static const Color SECONDARY = Colors.green;
   static const Color DARK = Color(0xFF35343A);
   // Field and forms colors
   static const Color FIELD_BG_LIGHT = Color(0xFFEAEAEE);

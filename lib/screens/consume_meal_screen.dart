@@ -1,7 +1,10 @@
+import 'package:fbb_reg_ticket/model/Command.dart';
+import 'package:fbb_reg_ticket/model/command_camp.dart';
 import 'package:fbb_reg_ticket/res/styles.dart';
 import 'package:fbb_reg_ticket/res/values.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart';
 
 class ConsumeMealScreen extends StatefulWidget {
   final String ticketNumber;
@@ -17,6 +20,36 @@ class ConsumeMealScreen extends StatefulWidget {
 
 class _ConsumeMealScreenState extends State<ConsumeMealScreen> {
   String ticketNumber = "";
+
+  CommandCamp? _commandCamp;
+  // todo : load it from API
+  int _maxMealGM = 10;
+  int _maxMealPM = 10;
+  int _consumeMealGM = 0; // todo get it from maxmeal
+  int _consumeMealPM = 0;
+  void _incrementConsumeMealGM() {
+    setState(() {
+      _consumeMealGM < _maxMealGM ? _consumeMealGM++ : _maxMealGM;
+    });
+  }
+
+  void _decrementConsumeMealGM() {
+    setState(() {
+      _consumeMealGM > 0 ? _consumeMealGM-- : 0;
+    });
+  }
+
+  void _incrementConsumeMealPM() {
+    setState(() {
+      _consumeMealPM < _maxMealPM ? _consumeMealPM++ : _maxMealPM;
+    });
+  }
+
+  void _decrementConsumeMealPM() {
+    setState(() {
+      _consumeMealPM > 0 ? _consumeMealPM-- : 0;
+    });
+  }
 
   _ConsumeMealScreenState({required this.ticketNumber});
 
@@ -34,7 +67,7 @@ class _ConsumeMealScreenState extends State<ConsumeMealScreen> {
         child: Stack(
           // children: <Widget>[_HomeContent(), _bottomBar()],
           children: <Widget>[
-            homeTicketContent(context, ticketNumber),
+            _futureContent(context, ticketNumber),
             Container(
               alignment: Alignment.bottomLeft,
               child: BottomAppBar(
@@ -50,7 +83,26 @@ class _ConsumeMealScreenState extends State<ConsumeMealScreen> {
     );
   }
 
-  Widget homeTicketContent(BuildContext context, String ticketNumber) {
+  Widget _futureContent(BuildContext context, String ticketNumber) {
+    return FutureBuilder(
+      future: Command.fetchCommand(Client(), ticketNumber),
+      builder: (context, snapshot) {
+        if (snapshot.hasError) {
+          return const Center(
+            child: Text('An error has occured'),
+          );
+        } else if (snapshot.hasData) {
+          return _homeTicketContent(context, snapshot.data as Command);
+        } else {
+          return const Center(
+            child: Text('Loading ...'),
+          );
+        }
+      },
+    );
+  }
+
+  Widget _homeTicketContent(BuildContext context, Command command) {
     return Container(
         margin: const EdgeInsets.all(16),
         child: ListView(
@@ -67,7 +119,7 @@ class _ConsumeMealScreenState extends State<ConsumeMealScreen> {
                       style: AppTextStyle.text(color: AppColors.PRIMARY),
                     ),
                     Text(
-                      ticketNumber,
+                      command.id,
                       style: AppTextStyle.head2(color: AppColors.PRIMARY),
                     ),
                   ]),
@@ -84,7 +136,7 @@ class _ConsumeMealScreenState extends State<ConsumeMealScreen> {
                       style: AppTextStyle.text(color: AppColors.PRIMARY),
                     ),
                     Text(
-                      'Talata 30 Aogositra',
+                      '${command.commandCamps![0].campName}',
                       style: AppTextStyle.head2(color: AppColors.PRIMARY),
                     ),
                   ]),
@@ -161,7 +213,7 @@ class _ConsumeMealScreenState extends State<ConsumeMealScreen> {
                           style: AppTextStyle.head3(color: AppColors.PRIMARY),
                         ),
                         Text(
-                          '2',
+                          '$_maxMealGM',
                           style: AppTextStyle.head3(color: AppColors.PRIMARY),
                         )
                       ],
@@ -189,11 +241,13 @@ class _ConsumeMealScreenState extends State<ConsumeMealScreen> {
                                       padding: EdgeInsets.zero,
                                       icon: Icon(
                                           CupertinoIcons.minus_circle_fill),
-                                      onPressed: () {}),
+                                      onPressed: () {
+                                        _decrementConsumeMealGM();
+                                      }),
                                 ),
                                 Container(
                                   child: Text(
-                                    '2',
+                                    '$_consumeMealGM',
                                     style: AppTextStyle.head2(
                                         fontWeight: FontWeight.normal),
                                   ),
@@ -206,7 +260,9 @@ class _ConsumeMealScreenState extends State<ConsumeMealScreen> {
                                       padding: EdgeInsets.zero,
                                       icon: Icon(
                                           CupertinoIcons.add_circled_solid),
-                                      onPressed: () {}),
+                                      onPressed: () {
+                                        _incrementConsumeMealGM();
+                                      }),
                                 ),
                               ],
                             ),
@@ -270,7 +326,7 @@ class _ConsumeMealScreenState extends State<ConsumeMealScreen> {
                           style: AppTextStyle.head3(color: AppColors.PRIMARY),
                         ),
                         Text(
-                          '2',
+                          '$_maxMealPM',
                           style: AppTextStyle.head3(color: AppColors.PRIMARY),
                         )
                       ],
@@ -298,11 +354,13 @@ class _ConsumeMealScreenState extends State<ConsumeMealScreen> {
                                       padding: EdgeInsets.zero,
                                       icon: Icon(
                                           CupertinoIcons.minus_circle_fill),
-                                      onPressed: () {}),
+                                      onPressed: () {
+                                        _decrementConsumeMealPM();
+                                      }),
                                 ),
                                 Container(
                                   child: Text(
-                                    '2',
+                                    '$_consumeMealPM',
                                     style: AppTextStyle.head2(
                                         fontWeight: FontWeight.normal),
                                   ),
@@ -315,7 +373,9 @@ class _ConsumeMealScreenState extends State<ConsumeMealScreen> {
                                       padding: EdgeInsets.zero,
                                       icon: Icon(
                                           CupertinoIcons.add_circled_solid),
-                                      onPressed: () {}),
+                                      onPressed: () {
+                                        _incrementConsumeMealPM();
+                                      }),
                                 ),
                               ],
                             ),
@@ -345,6 +405,7 @@ class _ConsumeMealScreenState extends State<ConsumeMealScreen> {
                   onPressed: () {
                     // TODO : REPLACE IT WITH REAL DATA CHECK AND OK SCCREEN IF SUCCESS
                     Navigator.pushNamed(context, '/consume_validated');
+                    // Navigator.pushNamed(context, '/consume_refused');
                   },
                   child: FittedBox(
                       child: Row(
