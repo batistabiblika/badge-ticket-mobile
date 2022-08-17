@@ -2,6 +2,8 @@
 import 'package:fbb_reg_ticket/screens/consume_meal_screen.dart';
 import 'package:fbb_reg_ticket/screens/consume_meal_validated_screen.dart';
 import 'package:fbb_reg_ticket/screens/home_screen/home_screen.dart';
+import 'package:fbb_reg_ticket/screens/qr_test.dart';
+// import 'package:fbb_reg_ticket/screens/qr_test.dart';
 import 'package:fbb_reg_ticket/screens/scan_badge_screen/scan_badge_screen.dart';
 import 'package:fbb_reg_ticket/screens/scan_meal_screen/configure_meal_ticket_screen.dart';
 import 'package:fbb_reg_ticket/screens/scan_meal_screen/scan_meal_ticket_screen.dart';
@@ -25,6 +27,7 @@ class MyApp extends StatelessWidget {
         // home: const HomeTicket(title: 'Ticket Sakafo Home'),
         routes: {
           '/': (BuildContext ctx) => const HomeScreen(),
+          '/qr_test': (BuildContext ctx) => const QrTest(),
           '/scan_meal_ticket': (BuildContext ctx) =>
               const ScanMealTicketScreen(),
           '/verify_meal_ticket': (BuildContext ctx) =>

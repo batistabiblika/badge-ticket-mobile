@@ -8,6 +8,7 @@ class ButtonTile extends StatelessWidget {
   final double? height;
   final Color? color;
   final double? fontSize;
+  final double? borderRadius;
   final bool isLightMode;
   final VoidCallback? onPressed;
   const ButtonTile(this.data,
@@ -15,6 +16,7 @@ class ButtonTile extends StatelessWidget {
       required this.onPressed,
       this.color,
       this.height,
+      this.borderRadius = 8,
       this.isLightMode = false,
       this.icon = CupertinoIcons.person,
       this.fontSize = 16})
@@ -28,10 +30,17 @@ class ButtonTile extends StatelessWidget {
               backgroundColor: AppColors.PRIMARY_TRANSLUSCENT,
               elevation: 0,
               primary: color,
-              
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(borderRadius!),
+              ),
               padding: const EdgeInsets.all(0))
-          : ElevatedButton.styleFrom(elevation: 0, primary: color),
-        
+          : ElevatedButton.styleFrom(
+              elevation: 0,
+              primary: color,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(borderRadius!),
+              ),
+            ),
       onPressed: onPressed,
       child: Container(
         height: height,

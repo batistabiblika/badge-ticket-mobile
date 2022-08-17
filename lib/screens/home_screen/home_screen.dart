@@ -1,8 +1,6 @@
-import 'package:fbb_reg_ticket/components/widgets/button_solid.dart';
 import 'package:fbb_reg_ticket/components/widgets/button_tile.dart';
 import 'package:fbb_reg_ticket/res/styles.dart';
 import 'package:fbb_reg_ticket/res/values.dart';
-import 'package:fbb_reg_ticket/screens/scan_meal_screen/scan_meal_ticket_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -114,6 +112,16 @@ class HomeScreen extends StatelessWidget {
                   color: AppColors.SECONDARY,
                   icon: CupertinoIcons.tickets, onPressed: () {
                 Navigator.pushNamed(context, '/scan_meal_ticket');
+              }),
+
+              // Margin
+              SizedBox(
+                height: 8,
+              ),
+              ButtonTile("QR Test",
+                  color: AppColors.RED,
+                  icon: CupertinoIcons.tickets, onPressed: () {
+                Navigator.pushNamed(context, '/qr_test');
               }),
             ],
           ),
