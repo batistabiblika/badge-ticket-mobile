@@ -1,3 +1,4 @@
+import 'package:fbb_reg_ticket/components/widgets/button_solid.dart';
 import 'package:fbb_reg_ticket/res/styles.dart';
 import 'package:fbb_reg_ticket/res/values.dart';
 import 'package:flutter/cupertino.dart';
@@ -47,9 +48,9 @@ class _ConfigureMealTicketScreen extends State<ConfigureMealTicketScreen> {
   Future<void> loadSetting() async {
     print("Loading meal setting");
     final SharedPreferences prefs = await _prefs;
-    String mealDay = prefs.getString('mealDay') ?? 'MER';
+    String mealDay = prefs.getString('mealDay') ?? AppSettings.MEAL_DAY;
     setMealDay(mealDay);
-    String mealType = prefs.getString('mealType') ?? 'BREAKFAST';
+    String mealType = prefs.getString('mealType') ?? AppSettings.MEAL_TYPE;
     setMealType(mealType);
   }
 
@@ -77,7 +78,7 @@ class _ConfigureMealTicketScreen extends State<ConfigureMealTicketScreen> {
                 elevation: 0,
                 shape: const CircularNotchedRectangle(),
                 color: AppColors.TRANSPARENT,
-                child: bottomBar(context),
+                child: _bottomBar(context),
               ),
             ),
           ],
@@ -166,44 +167,25 @@ class _ConfigureMealTicketScreen extends State<ConfigureMealTicketScreen> {
     );
   }
 
-  Widget bottomBar(BuildContext context) {
+  Widget _bottomBar(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(8),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.end,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          Container(
-            height: 48,
-            margin: const EdgeInsets.only(top: 8),
-            child: ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                  elevation: 0, primary: AppColors.PRIMARY),
-              onPressed: () {
-                saveSetting();
-                Navigator.of(context).pop();
-              },
-              child: FittedBox(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    const Text(
-                      'Enregistrer config. repas',
-                      style: TextStyle(fontSize: AppSizes.TEXT_SIZE_NORMAL),
-                    ),
-                    Container(
-                      margin: const EdgeInsets.only(left: 8),
-                      child: const Icon(
-                        CupertinoIcons.square_arrow_down,
-                        size: 24,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
+      alignment: Alignment.bottomCenter,
+      child: BottomAppBar(
+        elevation: 0,
+        // shape: const CircularNotchedRectangle(),
+        child: Container(
+          padding: const EdgeInsets.all(8),
+          width: double.infinity,
+          child: ButtonSolid(
+            'Enregistrer config. repas',
+            color: AppColors.PRIMARY,
+            icon: CupertinoIcons.square_arrow_down,
+            onPressed: () {
+              saveSetting();
+              Navigator.of(context).pop();
+            },
           ),
-        ],
+        ),
       ),
     );
   }

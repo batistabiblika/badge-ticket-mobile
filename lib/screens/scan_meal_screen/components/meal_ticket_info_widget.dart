@@ -37,14 +37,21 @@ class MealTicketInfoWidget extends StatelessWidget {
             const SizedBox(
               height: 8,
             ),
-            (information != null)
-                ? Text(
-                    information!,
-                    style: AppTextStyle.head2(color: Colors.red),
-                  )
-                : const SizedBox(
-                    width: 0,
-                  ),
+            if (information != null)
+              if (information == "KO" || information == "NOT_FOUND")
+                Text(
+                  'Ticket not found',
+                  style: AppTextStyle.head2(color: Colors.red),
+                )
+              else
+                Text(
+                  information!,
+                  style: AppTextStyle.head2(color: Colors.red),
+                )
+            else
+              const SizedBox(
+                width: 0,
+              ),
           ]),
         ),
 

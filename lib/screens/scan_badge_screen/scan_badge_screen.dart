@@ -1,5 +1,6 @@
 import 'package:fbb_reg_ticket/components/widgets/button_solid.dart';
-import 'package:fbb_reg_ticket/screens/consume_meal_screen.dart';
+import 'package:fbb_reg_ticket/screens/qr_screen/qr_screen.dart';
+import 'package:fbb_reg_ticket/screens/scan_meal_screen/consume_meal_screen.dart';
 import 'package:fbb_reg_ticket/res/styles.dart';
 import 'package:fbb_reg_ticket/res/values.dart';
 import 'package:fbb_reg_ticket/screens/scan_badge_screen/badge_info_screen.dart';
@@ -16,14 +17,17 @@ class ScanBadgeScreen extends StatefulWidget {
 
 class _ScanBadgeScreenState extends State<ScanBadgeScreen> {
   String _badgeNumber = "";
-  void changeBadgeNumber(String value) {
+
+  // final TextEditingController _textController = TextEditingController();
+  void setBadgeNumber(String value) {
     setState(() {
+      // _textController.text = value;
       _badgeNumber = value;
     });
   }
 
   void verifyBadge({String? badgeNumber}) {
-    Navigator.of(context).push(
+    Navigator.of(context).pushReplacement(
       MaterialPageRoute<void>(
         // CupertinoPageRoute<void>(
         builder: (BuildContext context) {
@@ -41,7 +45,7 @@ class _ScanBadgeScreenState extends State<ScanBadgeScreen> {
       appBar: AppBar(
         // Here we take the value from the MyHomePage object that was created by
         // the App.build method, and use it to set our appbar title.
-        title: const Text("Scanner badge"),
+        title: const Text("Vérifier badge"),
       ),
       body: SafeArea(
         child: Stack(
@@ -64,47 +68,72 @@ class _ScanBadgeScreenState extends State<ScanBadgeScreen> {
 
   Widget scanBadgeContent(BuildContext context) {
     return Container(
-        margin: const EdgeInsets.all(16),
         child: ListView(
-          shrinkWrap: true,
-          children: <Widget>[
-            Text(
-              'Badge n°',
-              style: AppTextStyle.head2(color: AppColors.PRIMARY),
-            ),
-            TextFormField(
-              autofocus: true,
-              decoration: const InputDecoration(
-                // icon: Icon(CupertinoIcons.ticket),
-                // labelText: "Ticket n°",
-                hintText: "Ex. 001A",
-              ),
-              onChanged: (String? value) {
-                changeBadgeNumber(value!);
-              },
-              onFieldSubmitted: (String? value) {
-                verifyBadge(badgeNumber: value);
-              },
-            ),
+      padding: const EdgeInsets.symmetric(
+          vertical: AppSizes.MARGIN_Y, horizontal: AppSizes.MARGIN_X),
+      shrinkWrap: true,
+      children: <Widget>[
+        Text(
+          'Saisir n° badge',
+          style: AppTextStyle.text(color: AppColors.PRIMARY),
+        ),
+        TextFormField(
+          autofocus: false,
+          // controller: _textController,
+          decoration: const InputDecoration(
+            // icon: Icon(CupertinoIcons.ticket),
+            // labelText: "Ticket n°",
+            hintText: "Ex. 001A",
+          ),
+          onChanged: (String? value) {
+            setBadgeNumber(value!);
+          },
+          onFieldSubmitted: (String? value) {
+            verifyBadge(badgeNumber: value);
+          },
+        ),
 
-            // QR Scan
-            // Detect button
-            Container(
-              margin: const EdgeInsets.only(top: 16),
-              // decoration: BoxDecoration(color: AppColors.BTN_BG_LIGHT),
-              height: 48,
-              child: ButtonSolid(
-                "Scanner",
-                onPressed: () {
-                  // TODO SCan QR
-                  print('Scanner');
-                },
-                icon: CupertinoIcons.camera,
-                color: AppColors.PRIMARY,
-              ),
-            ),
-          ],
-        ));
+        SizedBox(
+          height: 16,
+        ),
+        Text(
+          'Ou scanner',
+          style: AppTextStyle.text(color: AppColors.PRIMARY),
+        ),
+        // QR Scan
+        // Detect button
+        Container(
+          margin: const EdgeInsets.only(top: 16),
+          // decoration: BoxDecoration(color: AppColors.BTN_BG_LIGHT),
+          height: 48,
+          child: ButtonSolid(
+            "Scanner",
+            onPressed: () async {
+              // TODO SCan QR
+              // print('Scanner');
+              var result = await Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const QrScreen()),
+              );
+              if (result is String) {
+                // _textController.text = result;
+                setBadgeNumber(result);
+                verifyBadge(badgeNumber: result);
+              }
+            },
+            icon: CupertinoIcons.camera,
+            color: AppColors.PRIMARY,
+          ),
+        ),
+        SizedBox(
+          height: 24,
+        ),
+        Text(
+          'Badge n° ${_badgeNumber}',
+          style: AppTextStyle.head2(color: AppColors.PRIMARY),
+        ),
+      ],
+    ));
   }
 
   Widget bottomBar(BuildContext context) {

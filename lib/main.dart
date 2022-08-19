@@ -1,5 +1,5 @@
 // import 'package:fbb_reg_ticket/home.dart';
-import 'package:fbb_reg_ticket/screens/consume_meal_screen.dart';
+import 'package:fbb_reg_ticket/screens/scan_meal_screen/consume_meal_screen.dart';
 import 'package:fbb_reg_ticket/screens/consume_meal_validated_screen.dart';
 import 'package:fbb_reg_ticket/screens/home_screen/home_screen.dart';
 import 'package:fbb_reg_ticket/screens/qr_test.dart';
@@ -39,7 +39,25 @@ class MyApp extends StatelessWidget {
           '/consume_validated': (BuildContext ctx) =>
               const ConsumeMealValidatedScreen(isSuccess: true),
           '/consume_refused': (BuildContext ctx) =>
-              const ConsumeMealValidatedScreen(isSuccess: false),
+              const ConsumeMealValidatedScreen(
+                isSuccess: false,
+                message: "REFUSED",
+              ),
+          '/consume_consumed': (BuildContext ctx) =>
+              const ConsumeMealValidatedScreen(
+                isSuccess: false,
+                message: "CONSUMED",
+              ),
+          '/consume_invalid': (BuildContext ctx) =>
+              const ConsumeMealValidatedScreen(
+                isSuccess: false,
+                message: "INVALID",
+              ),
+          '/consume_not_found': (BuildContext ctx) =>
+              const ConsumeMealValidatedScreen(
+                isSuccess: false,
+                message: "NOT_FOUND",
+              ),
 
           '/scan_badge': (BuildContext ctx) => const ScanBadgeScreen(),
 

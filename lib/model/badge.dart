@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:fbb_reg_ticket/res/values.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Badge {
@@ -33,7 +34,7 @@ class Badge {
 
   static Future<dynamic> fetchBadge(String badgeNumber) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    String host = prefs.getString('host') ?? '192.168.43.152:8000';
+    String host = prefs.getString('host') ?? AppSettings.HOST;
     try {
       var response = await Dio().get('http://$host/v2api/badges/$badgeNumber');
       if (response.statusCode == 200) {
@@ -42,14 +43,21 @@ class Badge {
           badge.image = 'http://$host/uploads/${badge.image}';
         }
         return badge;
+      } else {
+        print(response.data);
       }
     } on DioError catch (error) {
       if (error.response == null) {
         return ("NETWORK_ERROR");
-      } else if (error.response?.statusCode == 404) {
-        print(error.response?.data["status"]);
+      } else if (error.response!.statusCode == 404) {
+        if (error.response!.data is String) {
+          print(error.response!.data);
+          // return (error.response!.data);
+          return ("NO_ROUTE_FOUND");
+        }
+        print(error.response!.data["status"]);
         print("SORRY, BADGE NOT FOUND");
-        return ("NOT_FOUND");
+        return (error.response!.data["code_error"] ?? "NOT_FOUND");
       } else {
         print(error);
         return ("OTHER_CONNNECTION_ERROR");

@@ -44,10 +44,11 @@ class HomeScreen extends StatelessWidget {
     return Stack(
       children: [
         Container(
-          padding: EdgeInsets.all(8),
           // decoration:
           //     const BoxDecoration(color: Color.fromARGB(226, 184, 8, 8)),
           child: ListView(
+            padding: const EdgeInsets.symmetric(
+                vertical: AppSizes.MARGIN_Y, horizontal: AppSizes.MARGIN_X),
             shrinkWrap: true,
             // mainAxisAlignment: MainAxisAlignment.start,
             // crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -114,7 +115,7 @@ class HomeScreen extends StatelessWidget {
                 Navigator.pushNamed(context, '/scan_meal_ticket');
               }),
 
-              // Margin
+              /* // Margin
               SizedBox(
                 height: 8,
               ),
@@ -122,7 +123,7 @@ class HomeScreen extends StatelessWidget {
                   color: AppColors.RED,
                   icon: CupertinoIcons.tickets, onPressed: () {
                 Navigator.pushNamed(context, '/qr_test');
-              }),
+              }), */
             ],
           ),
         ),

@@ -1,3 +1,4 @@
+import 'package:fbb_reg_ticket/res/styles.dart';
 import 'package:fbb_reg_ticket/res/values.dart';
 import 'package:fbb_reg_ticket/screens/scan_meal_screen/scan_meal_ticket_screen.dart';
 import 'package:flutter/cupertino.dart';
@@ -5,7 +6,9 @@ import 'package:flutter/material.dart';
 
 class ConsumeMealValidatedScreen extends StatelessWidget {
   final bool isSuccess;
-  const ConsumeMealValidatedScreen({Key? key, required this.isSuccess})
+  final String? message;
+  const ConsumeMealValidatedScreen(
+      {Key? key, required this.isSuccess, this.message})
       : super(key: key);
 
   // This widget is the root of your application.
@@ -55,13 +58,36 @@ class ConsumeMealValidatedScreen extends StatelessWidget {
     Widget failedWidget = Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.center,
-        children: const [
-          Icon(
+        children: [
+          Text(
+            "Erreur lors de la validation du ticket",
+            style: AppTextStyle.text(color: Colors.red),
+          ),
+          SizedBox(
+            height: 24,
+          ),
+          const Icon(
             CupertinoIcons.clear_circled_solid,
             size: 96,
             color: Colors.red,
           ),
-          Text("Erreur lors de la validation du ticket"),
+          SizedBox(
+            height: 24,
+          ),
+          if (message == "NOT_FOUND")
+            Text(
+              "Numéro du ticket innexistant",
+              style: AppTextStyle.text(),
+            ),
+          if (message == "CONSUMED")
+            Text(
+              "Repas déja consommé",
+              style: AppTextStyle.text(),
+            ),
+          if (message == "INVALID")
+            Text("Configuration du repas invalide ou ticket non acheté",
+                style: AppTextStyle.text()),
+          if (message == "REFUSED") const Text("REFUSED"),
         ]);
 
     Widget renderedWidget = failedWidget;
@@ -90,7 +116,7 @@ class ConsumeMealValidatedScreen extends StatelessWidget {
                       elevation: 0, primary: AppColors.PRIMARY),
                   onPressed: () {
                     // Navigator.pushNamed(context, '/consume');
-                    Navigator.of(context).push(
+                    Navigator.of(context).pushReplacement(
                       MaterialPageRoute<void>(
                         // CupertinoPageRoute<void>(
                         builder: (BuildContext context) {

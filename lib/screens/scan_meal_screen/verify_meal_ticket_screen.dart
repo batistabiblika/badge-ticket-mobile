@@ -1,6 +1,7 @@
 import 'package:fbb_reg_ticket/components/widgets/button_solid.dart';
 import 'package:fbb_reg_ticket/model/command_meal.dart';
-import 'package:fbb_reg_ticket/screens/consume_meal_screen.dart';
+import 'package:fbb_reg_ticket/screens/qr_screen/qr_screen.dart';
+import 'package:fbb_reg_ticket/screens/scan_meal_screen/consume_meal_screen.dart';
 import 'package:fbb_reg_ticket/res/styles.dart';
 import 'package:fbb_reg_ticket/res/values.dart';
 import 'package:fbb_reg_ticket/screens/scan_meal_screen/components/meal_ticket_info_widget.dart';
@@ -36,9 +37,8 @@ class _VerifyMealTicketScreenState extends State<VerifyMealTicketScreen> {
 
   Future<void> verifyTicket() async {
     // TODO : put here ticket verification from API
-    CommandMeal? commandMeal =
-        await CommandMeal.fetchCommandMeal(_ticketNumber);
-    if (commandMeal != null) {
+    var commandMeal = await CommandMeal.fetchCommandMeal(_ticketNumber);
+    if (commandMeal is CommandMeal) {
       setState(() {
         setInformation(null);
         _commandMeal = commandMeal;
@@ -85,7 +85,6 @@ class _VerifyMealTicketScreenState extends State<VerifyMealTicketScreen> {
       body: SafeArea(
         // body: SingleChildScrollView(
         child: Stack(
-          // children: <Widget>[_HomeContent(), _bottomBar()],
           children: <Widget>[
             mainContent(context),
           ],
@@ -110,7 +109,7 @@ class _VerifyMealTicketScreenState extends State<VerifyMealTicketScreen> {
                 children: [
                   Flexible(
                     child: TextFormField(
-                      autofocus: true,
+                      autofocus: false,
                       decoration: const InputDecoration(
                         hintText: "Ex. 001A",
                       ),
@@ -141,9 +140,18 @@ class _VerifyMealTicketScreenState extends State<VerifyMealTicketScreen> {
               height: 48,
               child: ButtonSolid(
                 "Scanner",
-                onPressed: () {
+                onPressed: () async {
                   // TODO SCan QR
-                  print('Scanner');
+                  // print('Scanner');
+                  var result = await Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const QrScreen()),
+                  );
+                  if (result is String) {
+                    // _textController.text = result;
+                    setTicketNumber(result);
+                    verifyTicket();
+                  }
                 },
                 icon: CupertinoIcons.camera,
                 color: AppColors.PRIMARY,

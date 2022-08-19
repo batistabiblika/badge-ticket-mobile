@@ -1,57 +1,31 @@
 import 'dart:io';
 
-import 'package:fbb_reg_ticket/components/widgets/button_solid.dart';
-import 'package:fbb_reg_ticket/screens/scan_meal_screen/consume_meal_screen.dart';
 import 'package:fbb_reg_ticket/res/styles.dart';
 import 'package:fbb_reg_ticket/res/values.dart';
-import 'package:fbb_reg_ticket/screens/consume_meal_validated_screen.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 
-class ScanMealTicketScreen extends StatefulWidget {
+class QrScreen extends StatefulWidget {
   // declaration
-  const ScanMealTicketScreen({Key? key}) : super(key: key);
+  const QrScreen({Key? key}) : super(key: key);
 
   @override
-  State<StatefulWidget> createState() => _ScanMealTicketScreenState();
+  State<StatefulWidget> createState() => _QrScreenState();
 }
 
-class _ScanMealTicketScreenState extends State<ScanMealTicketScreen> {
-  String _ticketNumber = "";
-  String _mode = "SCAN"; // ||"VERIFY" || "SUCCESS" || "ERROR"
-  void setMode(String value) {
+class _QrScreenState extends State<QrScreen> {
+  String _qrNumber = "";
+  void setQrNumber(String value) {
     setState(() {
-      _mode = value;
+      _qrNumber = value;
     });
-  } // ||"VERIFY" || "SUCCESS" || "ERROR"
+  }
 
   // QR code
   Barcode? result;
   QRViewController? controller;
   final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
 
-  void setTicketNumber(String value) {
-    setState(() {
-      _ticketNumber = value;
-    });
-  }
-
-  void verifyTicket(String ticketNumber) {
-    // setMode("VERIFY");
-    Navigator.of(context).pushReplacement(
-      MaterialPageRoute<void>(
-        builder: (BuildContext context) {
-          return ConsumeMealScreen(
-            ticketNumber: ticketNumber,
-          );
-        },
-      ),
-    );
-  }
-
-  // In order to get hot reload to work we need to pause the camera if the platform
-  // is android, or resume the camera if the platform is iOS.
   @override
   void reassemble() {
     super.reassemble();
@@ -67,20 +41,21 @@ class _ScanMealTicketScreenState extends State<ScanMealTicketScreen> {
       appBar: AppBar(
         // Here we take the value from the MyHomePage object that was created by
         // the App.build method, and use it to set our appbar title.
-        title: Text("Scanner ticket sakafo"),
+        title: Text("Scanner code"),
       ),
       body: SafeArea(
         // body: SingleChildScrollView(
         child: Stack(
+          // children: <Widget>[_HomeContent(), _bottomBar()],
           children: <Widget>[
-            _scanMealTicketContent(context),
+            _scanContent(context),
           ],
         ),
       ),
     );
   }
 
-  Widget _scanMealTicketContent(BuildContext context) {
+  Widget _scanContent(BuildContext context) {
     return Container(
         child: ListView(
       padding: EdgeInsets.only(top: 16, bottom: 64, left: 16, right: 16),
@@ -92,39 +67,10 @@ class _ScanMealTicketScreenState extends State<ScanMealTicketScreen> {
           height: 360,
           child: _buildQrView(context),
         ),
-        // Manual add
-        if (result != null) Text('Result ${result!.code}'),
         Text(
-          'Ou saisir',
-          style: AppTextStyle.text(color: AppColors.PRIMARY),
-        ),
-        Text(
-          'Ticket n° ${_ticketNumber}',
+          'Scan n° ${_qrNumber}',
           style: AppTextStyle.head2(color: AppColors.PRIMARY),
         ),
-        TextFormField(
-          autofocus: false,
-          decoration: const InputDecoration(
-            // icon: Icon(CupertinoIcons.ticket),
-            // labelText: "Ticket n°",
-            hintText: "Ex. 001A",
-          ),
-          onChanged: (String? value) {
-            setTicketNumber(value!);
-          },
-        ),
-        const SizedBox(
-          height: 16,
-        ),
-        ButtonSolid(
-          "Hisakafo",
-          icon: CupertinoIcons.tickets,
-          color: AppColors.SECONDARY,
-          onPressed: () {
-            // Navigator.pushNamed(context, '/consume');
-            verifyTicket(_ticketNumber);
-          },
-        )
       ],
     ));
   }
@@ -160,15 +106,13 @@ class _ScanMealTicketScreenState extends State<ScanMealTicketScreen> {
         result = scanData;
       });
       if (scanData.code != null) {
-        var ticketNumber = scanData.code!;
-        setTicketNumber(ticketNumber);
-        if (ticketNumber != _ticketNumber ||
-            ticketNumber != null ||
-            ticketNumber != "") {
-          verifyTicket(ticketNumber);
+        var qrNumber = scanData.code!;
+        setQrNumber(qrNumber);
+        if (qrNumber != _qrNumber || qrNumber != null || qrNumber != "") {
+          // verifyTicket(qrNumber);
+          // Send data back
+          Navigator.pop(context, qrNumber);
           controller.pauseCamera();
-          // controller.dispose();
-          // super.dispose();
         }
       }
     });
