@@ -1,4 +1,4 @@
-package com.example.fbb_reg_ticket
+package com.batistabiblika.fbb_reg_ticket
 
 import io.flutter.embedding.android.FlutterActivity
 

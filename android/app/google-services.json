@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "749987349203",
+    "project_id": "badge-ticket",
+    "storage_bucket": "badge-ticket.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:749987349203:android:4ddc837f6495d8ffc18a26",
+        "android_client_info": {
+          "package_name": "com.batistabiblika.fbb_reg_ticket"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "749987349203-1d5b45pjpf6a1f6iojetdfbl9ml9n55q.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCaTHpvCph33VR57fpRaqQ7ot2n0U9dobY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "749987349203-1d5b45pjpf6a1f6iojetdfbl9ml9n55q.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
