@@ -1,10 +1,12 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:fbb_reg_ticket/components/widgets/button_solid.dart';
 import 'package:fbb_reg_ticket/model/command_meal.dart';
 import 'package:fbb_reg_ticket/screens/qr_screen/qr_screen.dart';
-import 'package:fbb_reg_ticket/screens/scan_meal_screen/consume_meal_screen.dart';
 import 'package:fbb_reg_ticket/res/styles.dart';
 import 'package:fbb_reg_ticket/res/values.dart';
 import 'package:fbb_reg_ticket/screens/scan_meal_screen/components/meal_ticket_info_widget.dart';
+import 'package:fbb_reg_ticket/screens/scan_meal_screen/meal_ticket_info_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -17,6 +19,7 @@ class VerifyMealTicketScreen extends StatefulWidget {
 }
 
 class _VerifyMealTicketScreenState extends State<VerifyMealTicketScreen> {
+  final _formKey = GlobalKey<FormState>();
   // ticket number state
   String _ticketNumber = "";
   void setTicketNumber(String value) {
@@ -33,11 +36,11 @@ class _VerifyMealTicketScreenState extends State<VerifyMealTicketScreen> {
     });
   }
 
-  CommandMeal _commandMeal = CommandMeal.empty();
+  // CommandMeal _commandMeal = CommandMeal.empty();
 
-  Future<void> verifyTicket() async {
+  Future<void> verifyTicket({String? ticketNumber}) async {
     // TODO : put here ticket verification from API
-    var commandMeal = await CommandMeal.fetchCommandMeal(_ticketNumber);
+    /* var commandMeal = await CommandMeal.fetchCommandMeal(_ticketNumber);
     if (commandMeal is CommandMeal) {
       setState(() {
         setInformation(null);
@@ -48,126 +51,145 @@ class _VerifyMealTicketScreenState extends State<VerifyMealTicketScreen> {
         setInformation("Ticket vide ou non acheté");
         _commandMeal = CommandMeal.empty();
       });
-    }
-    /* setState(() {
-      _commandMeal = CommandMeal(
-        // number: _ticketNumber,
-        breakfast: MealDays(
-            hasMer: false,
-            hasJeu: false,
-            hasVen: true,
-            hasSam: false,
-            hasDim: true),
-        lunch: MealDays(
-            hasMer: true,
-            hasJeu: true,
-            hasVen: false,
-            hasSam: false,
-            hasDim: false),
-        dinner: MealDays(
-            hasMer: true,
-            hasJeu: false,
-            hasVen: false,
-            hasSam: true,
-            hasDim: false),
-      );
-    }); */
+    } */
+    /* if ((ticketNumber == null || ticketNumber == "") && _ticketNumber == "") {
+      ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text("Veuillez saisir le numéro du ticket")));
+      return;
+    } */
+
+    Navigator.of(context).pushReplacement(
+      MaterialPageRoute<void>(
+        // CupertinoPageRoute<void>(
+        builder: (BuildContext context) {
+          return MealTicketInfoScreen(
+            ticketNumber: ticketNumber ?? _ticketNumber,
+          );
+        },
+      ),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
         title: Text("Verifier ticket sakafo"),
       ),
       body: SafeArea(
         // body: SingleChildScrollView(
         child: Stack(
           children: <Widget>[
-            mainContent(context),
+            _mainContent(context),
+            Container(
+              alignment: Alignment.bottomLeft,
+              child: BottomAppBar(
+                elevation: 0,
+                shape: const CircularNotchedRectangle(),
+                color: AppColors.TRANSPARENT,
+                child: _bottomBar(context),
+              ),
+            ),
           ],
         ),
       ),
     );
   }
 
-  Widget mainContent(BuildContext context) {
+  Widget _mainContent(BuildContext context) {
     return Container(
-        margin: const EdgeInsets.all(16),
         child: ListView(
-          shrinkWrap: true,
-          children: <Widget>[
-            Text(
-              'Ticket n°',
-              style: AppTextStyle.head2(color: AppColors.PRIMARY),
-            ),
-            Container(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Flexible(
-                    child: TextFormField(
-                      autofocus: false,
-                      decoration: const InputDecoration(
-                        hintText: "Ex. 001A",
-                      ),
-                      onChanged: (value) {
-                        setTicketNumber(value);
-                      },
-                      onFieldSubmitted: (String? value) {
-                        setTicketNumber(value!);
-                        verifyTicket();
-                      },
-                    ),
+      padding: const EdgeInsets.symmetric(
+          vertical: AppSizes.MARGIN_Y, horizontal: AppSizes.MARGIN_X),
+      shrinkWrap: true,
+      children: <Widget>[
+        Text(
+          'Ticket n°',
+          style: AppTextStyle.head2(color: AppColors.PRIMARY),
+        ),
+        Form(
+          key: _formKey,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Flexible(
+                child: TextFormField(
+                  autofocus: false,
+                  decoration: const InputDecoration(
+                    hintText: "Ex. 001A",
                   ),
-                  IconButton(
-                      onPressed: verifyTicket,
-                      icon: const Icon(
-                        color: AppColors.PRIMARY,
-                        CupertinoIcons.search_circle_fill,
-                        size: 40,
-                      ))
-                ],
-              ),
-            ),
-
-            // QR Scan
-            // Detect button
-            Container(
-              margin: const EdgeInsets.only(top: 16),
-              // decoration: BoxDecoration(color: AppColors.BTN_BG_LIGHT),
-              height: 48,
-              child: ButtonSolid(
-                "Scanner",
-                onPressed: () async {
-                  // TODO SCan QR
-                  // print('Scanner');
-                  var result = await Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => const QrScreen()),
-                  );
-                  if (result is String) {
-                    // _textController.text = result;
-                    setTicketNumber(result);
+                  onChanged: (value) {
+                    setTicketNumber(value);
+                  },
+                  onFieldSubmitted: (String? value) {
+                    setTicketNumber(value!);
                     verifyTicket();
-                  }
-                },
-                icon: CupertinoIcons.camera,
-                color: AppColors.PRIMARY,
+                  },
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Entrer le numéro du ticket SVP';
+                    }
+                    return null;
+                  },
+                ),
               ),
-            ),
+              IconButton(
+                  onPressed: () {
+                    if (!_formKey.currentState!.validate()) {
+                      return;
+                    }
+                    verifyTicket();
+                  },
+                  icon: Icon(
+                    color: AppColors.PRIMARY,
+                    CupertinoIcons.search_circle_fill,
+                    size: 40,
+                  ))
+            ],
+          ),
+        ),
+        /* Container(
+          margin: const EdgeInsets.only(top: 32),
+          // Result
+          child: MealTicketInfoWidget(
+              information: _information,
+              number: _ticketNumber,
+              commandMeal: _commandMeal),
+        ) */
+      ],
+    ));
+  }
 
-            Container(
-              margin: const EdgeInsets.only(top: 32),
-              // Result
-              child: MealTicketInfoWidget(
-                  information: _information,
-                  number: _ticketNumber,
-                  commandMeal: _commandMeal),
-            )
-          ],
-        ));
+  Widget _bottomBar(BuildContext context) {
+    return Container(
+      alignment: Alignment.bottomCenter,
+      child: BottomAppBar(
+        elevation: 0,
+        // shape: const CircularNotchedRectangle(),
+        child: Container(
+          padding: const EdgeInsets.all(8),
+          width: double.infinity,
+
+          // Scan button
+          child: ButtonSolid(
+            'Scanner',
+            color: AppColors.PRIMARY,
+            icon: CupertinoIcons.camera,
+            onPressed: () async {
+              // Scan SR
+              var result = await Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const QrScreen()),
+              );
+              if (result is String) {
+                // _textController.text = result;
+                setTicketNumber(result);
+                verifyTicket();
+              }
+            },
+          ),
+        ),
+      ),
+    );
   }
 }

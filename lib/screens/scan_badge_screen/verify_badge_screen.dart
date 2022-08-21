@@ -1,21 +1,25 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:fbb_reg_ticket/components/widgets/button_solid.dart';
 import 'package:fbb_reg_ticket/screens/qr_screen/qr_screen.dart';
-import 'package:fbb_reg_ticket/screens/scan_meal_screen/consume_meal_screen.dart';
 import 'package:fbb_reg_ticket/res/styles.dart';
 import 'package:fbb_reg_ticket/res/values.dart';
 import 'package:fbb_reg_ticket/screens/scan_badge_screen/badge_info_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class ScanBadgeScreen extends StatefulWidget {
+class VerifyBadgeScreen extends StatefulWidget {
   // declaration
-  const ScanBadgeScreen({Key? key}) : super(key: key);
+  const VerifyBadgeScreen({Key? key}) : super(key: key);
 
   @override
-  State<StatefulWidget> createState() => _ScanBadgeScreenState();
+  State<StatefulWidget> createState() => _VerifyBadgeScreenState();
 }
 
-class _ScanBadgeScreenState extends State<ScanBadgeScreen> {
+class _VerifyBadgeScreenState extends State<VerifyBadgeScreen> {
+  final _formKey = GlobalKey<FormState>();
+
+  // badge number state
   String _badgeNumber = "";
 
   // final TextEditingController _textController = TextEditingController();
@@ -26,6 +30,7 @@ class _ScanBadgeScreenState extends State<ScanBadgeScreen> {
     });
   }
 
+  // Navigate to verivy page screen
   void verifyBadge({String? badgeNumber}) {
     Navigator.of(context).pushReplacement(
       MaterialPageRoute<void>(
@@ -50,7 +55,7 @@ class _ScanBadgeScreenState extends State<ScanBadgeScreen> {
       body: SafeArea(
         child: Stack(
           children: [
-            scanBadgeContent(context),
+            _mainContent(context),
             Container(
               alignment: Alignment.bottomLeft,
               child: BottomAppBar(
@@ -66,7 +71,7 @@ class _ScanBadgeScreenState extends State<ScanBadgeScreen> {
     );
   }
 
-  Widget scanBadgeContent(BuildContext context) {
+  Widget _mainContent(BuildContext context) {
     return Container(
         child: ListView(
       padding: const EdgeInsets.symmetric(
@@ -75,25 +80,10 @@ class _ScanBadgeScreenState extends State<ScanBadgeScreen> {
       children: <Widget>[
         Text(
           'Saisir n° badge',
-          style: AppTextStyle.text(color: AppColors.PRIMARY),
+          style: AppTextStyle.head2(color: AppColors.PRIMARY),
         ),
-        /* TextFormField(
-          autofocus: false,
-          // controller: _textController,
-          decoration: const InputDecoration(
-            // icon: Icon(CupertinoIcons.ticket),
-            // labelText: "Ticket n°",
-            hintText: "Ex. 001A",
-          ),
-          onChanged: (String? value) {
-            setBadgeNumber(value!);
-          },
-          onFieldSubmitted: (String? value) {
-            verifyBadge(badgeNumber: value);
-          },
-        ), */
-
-        Container(
+        Form(
+          key: _formKey,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -112,11 +102,22 @@ class _ScanBadgeScreenState extends State<ScanBadgeScreen> {
                   onFieldSubmitted: (String? value) {
                     verifyBadge(badgeNumber: value);
                   },
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Entrer le numéro du badge SVP';
+                    }
+                    return null;
+                  },
                 ),
               ),
               IconButton(
-                  onPressed: verifyBadge,
-                  icon: const Icon(
+                  onPressed: () {
+                    if (!_formKey.currentState!.validate()) {
+                      return;
+                    }
+                    verifyBadge();
+                  },
+                  icon: Icon(
                     color: AppColors.PRIMARY,
                     CupertinoIcons.search_circle_fill,
                     size: 40,
@@ -124,22 +125,6 @@ class _ScanBadgeScreenState extends State<ScanBadgeScreen> {
             ],
           ),
         ),
-
-        // QR Scan
-        // Detect button
-        /* Container(
-          margin: const EdgeInsets.only(top: 16),
-          // decoration: BoxDecoration(color: AppColors.BTN_BG_LIGHT),
-          height: 48,
-          child: ButtonSolid(
-            "Vérifier",
-            onPressed: () async {
-              verifyBadge();
-            },
-            icon: CupertinoIcons.person,
-            color: AppColors.PRIMARY,
-          ),
-        ), */
       ],
     ));
   }
@@ -170,47 +155,6 @@ class _ScanBadgeScreenState extends State<ScanBadgeScreen> {
             },
           ),
         ),
-      ),
-    );
-  }
-
-  Widget bottomBar(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(8),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.end,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          Container(
-            height: 48,
-            margin: const EdgeInsets.only(top: 8),
-            child: ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                  elevation: 0, primary: AppColors.PRIMARY),
-              onPressed: () {
-                // Navigator.pushNamed(context, '/consume');
-                verifyBadge();
-              },
-              child: FittedBox(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    const Text(
-                      'Vérifier',
-                      style: TextStyle(fontSize: AppSizes.TEXT_SIZE_NORMAL),
-                    ),
-                    Container(
-                        margin: const EdgeInsets.only(left: 8),
-                        child: const Icon(
-                          CupertinoIcons.person,
-                          size: 24,
-                        ))
-                  ],
-                ),
-              ),
-            ),
-          ),
-        ],
       ),
     );
   }

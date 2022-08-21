@@ -4,7 +4,7 @@ import 'package:fbb_reg_ticket/screens/consume_meal_validated_screen.dart';
 import 'package:fbb_reg_ticket/screens/home_screen/home_screen.dart';
 import 'package:fbb_reg_ticket/screens/qr_test.dart';
 // import 'package:fbb_reg_ticket/screens/qr_test.dart';
-import 'package:fbb_reg_ticket/screens/scan_badge_screen/scan_badge_screen.dart';
+import 'package:fbb_reg_ticket/screens/scan_badge_screen/verify_badge_screen.dart';
 import 'package:fbb_reg_ticket/screens/scan_meal_screen/configure_meal_ticket_screen.dart';
 import 'package:fbb_reg_ticket/screens/scan_meal_screen/scan_meal_ticket_screen.dart';
 import 'package:fbb_reg_ticket/res/values.dart';
@@ -59,7 +59,7 @@ class MyApp extends StatelessWidget {
                 message: "NOT_FOUND",
               ),
 
-          '/scan_badge': (BuildContext ctx) => const ScanBadgeScreen(),
+          '/scan_badge': (BuildContext ctx) => const VerifyBadgeScreen(),
 
           // configuration
           '/config_meal': (BuildContext ctx) =>
