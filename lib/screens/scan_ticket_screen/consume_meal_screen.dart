@@ -2,7 +2,7 @@ import 'package:fbb_reg_ticket/model/Command.dart';
 import 'package:fbb_reg_ticket/model/command_camp.dart';
 import 'package:fbb_reg_ticket/res/styles.dart';
 import 'package:fbb_reg_ticket/res/values.dart';
-import 'package:fbb_reg_ticket/screens/scan_meal_screen/components/verify_meal_ticket_widget.dart';
+import 'package:fbb_reg_ticket/screens/scan_ticket_screen/components/consume_meal_ticket_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';

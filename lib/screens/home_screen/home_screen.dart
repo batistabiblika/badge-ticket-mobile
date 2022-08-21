@@ -1,7 +1,8 @@
 import 'package:fbb_reg_ticket/components/widgets/button_tile.dart';
-import 'package:fbb_reg_ticket/model/command_meal.dart';
+import 'package:fbb_reg_ticket/model/command_ticket.dart';
 import 'package:fbb_reg_ticket/res/styles.dart';
 import 'package:fbb_reg_ticket/res/values.dart';
+import 'package:fbb_reg_ticket/screens/scan_ticket_screen/components/meal_configuration_info_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -10,7 +11,6 @@ class HomeScreen extends StatefulWidget {
 
   @override
   State<StatefulWidget> createState() => _HomeScreenState();
-  
 }
 
 class _HomeScreenState extends State<HomeScreen> {
@@ -48,7 +48,6 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     );
   }
-  
 
   Widget contentWidget(BuildContext context) {
     return Stack(
@@ -71,7 +70,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   style: AppTextStyle.text(color: AppColors.PRIMARY),
                 ),
               ),
-              ButtonTile("Verifier badge",
+              ButtonTile("Vérifier badge",
                   icon: CupertinoIcons.person,
                   color: AppColors.PRIMARY, onPressed: () {
                 Navigator.pushNamed(context, '/scan_badge');
@@ -83,7 +82,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
 
               // Repas
-              // Verification
+              // Vérification
               Container(
                 margin: const EdgeInsets.only(bottom: 8),
                 child: Text(
@@ -94,7 +93,7 @@ class _HomeScreenState extends State<HomeScreen> {
               Row(
                 children: [
                   Expanded(
-                    child: ButtonTile("Configuration ticket repas",
+                    child: ButtonTile("Configurer repas",
                         height: 80,
                         icon: Icons.alarm,
                         isLightMode: true,
@@ -106,7 +105,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     width: 8,
                   ),
                   Expanded(
-                      child: ButtonTile("Verifier ticket repas",
+                      child: ButtonTile("Vérifier ticket",
                           height: 80,
                           icon: CupertinoIcons.tickets,
                           color: AppColors.PRIMARY, onPressed: () {
@@ -128,7 +127,7 @@ class _HomeScreenState extends State<HomeScreen> {
               SizedBox(
                 height: 8,
               ),
-              CommandMeal.configurationInformationWidget(),
+              MealConfigurationInfoWidget(),
 
               /* // Margin
               SizedBox(
@@ -145,6 +144,4 @@ class _HomeScreenState extends State<HomeScreen> {
       ],
     );
   }
-
- 
 }

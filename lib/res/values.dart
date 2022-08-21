@@ -10,6 +10,7 @@ class AppColors {
   static const Color PRIMARY70 = Color(0xB2374355);
   static const Color WHITE = Color(0xFFFFFFFF);
   static const Color SECONDARY = Colors.green;
+  static const Color GREEN = Colors.green;
   static const Color DARK = Color(0xFF35343A);
   // Field and forms colors
   static const Color FIELD_BG_LIGHT = Color(0xFFEAEAEE);
@@ -26,6 +27,9 @@ class AppColors {
   static const Color BTN_FG_DARK = WHITE;
   static const Color TRANSPARENT = Color(0x00000000);
   static const Color TRANSPARENT_WHITE = Color(0xAAFFFFFF);
+
+  // BORDER
+  static const Color BORDER = Color.fromARGB(57, 55, 67, 85);
 
   // COLOR SCHEME
   static const Color RED = Color(0xFFE61D54);
@@ -73,4 +77,5 @@ class AppSettings {
   static const String HOST = "https://gesttick.batista-biblika.mg";
   static const String MEAL_DAY = "MER";
   static const String MEAL_TYPE = "BREAKFAST";
+  static const bool FLASH = false;
 }

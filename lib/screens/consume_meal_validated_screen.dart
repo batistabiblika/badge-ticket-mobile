@@ -1,7 +1,8 @@
-import 'package:fbb_reg_ticket/model/command_meal.dart';
+import 'package:fbb_reg_ticket/model/command_ticket.dart';
 import 'package:fbb_reg_ticket/res/styles.dart';
 import 'package:fbb_reg_ticket/res/values.dart';
-import 'package:fbb_reg_ticket/screens/scan_meal_screen/scan_meal_ticket_screen.dart';
+import 'package:fbb_reg_ticket/screens/scan_ticket_screen/components/meal_configuration_info_widget.dart';
+import 'package:fbb_reg_ticket/screens/scan_ticket_screen/scan_meal_ticket_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -100,7 +101,7 @@ class ConsumeMealValidatedScreen extends StatelessWidget {
           SizedBox(
             height: 16,
           ),
-          CommandMeal.configurationInformationWidget(),
+          MealConfigurationInfoWidget(),
 
           /* SizedBox(
             height: 16,

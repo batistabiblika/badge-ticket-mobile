@@ -1,14 +1,14 @@
 // import 'package:fbb_reg_ticket/home.dart';
-import 'package:fbb_reg_ticket/screens/scan_meal_screen/consume_meal_screen.dart';
 import 'package:fbb_reg_ticket/screens/consume_meal_validated_screen.dart';
 import 'package:fbb_reg_ticket/screens/home_screen/home_screen.dart';
 import 'package:fbb_reg_ticket/screens/qr_test.dart';
 // import 'package:fbb_reg_ticket/screens/qr_test.dart';
 import 'package:fbb_reg_ticket/screens/scan_badge_screen/verify_badge_screen.dart';
-import 'package:fbb_reg_ticket/screens/scan_meal_screen/configure_meal_ticket_screen.dart';
-import 'package:fbb_reg_ticket/screens/scan_meal_screen/scan_meal_ticket_screen.dart';
 import 'package:fbb_reg_ticket/res/values.dart';
-import 'package:fbb_reg_ticket/screens/scan_meal_screen/verify_meal_ticket_screen.dart';
+import 'package:fbb_reg_ticket/screens/scan_ticket_screen/configure_meal_ticket_screen.dart';
+import 'package:fbb_reg_ticket/screens/scan_ticket_screen/consume_meal_screen.dart';
+import 'package:fbb_reg_ticket/screens/scan_ticket_screen/scan_meal_ticket_screen.dart';
+import 'package:fbb_reg_ticket/screens/scan_ticket_screen/verify_command_ticket_screen.dart';
 import 'package:fbb_reg_ticket/screens/setting_screen/setting_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -31,7 +31,7 @@ class MyApp extends StatelessWidget {
           '/scan_meal_ticket': (BuildContext ctx) =>
               const ScanMealTicketScreen(),
           '/verify_meal_ticket': (BuildContext ctx) =>
-              const VerifyMealTicketScreen(),
+              const VerifyCommandTicketScreen(),
 
           '/consume_meal': (BuildContext ctx) => const ConsumeMealScreen(
                 ticketNumber: '001A',

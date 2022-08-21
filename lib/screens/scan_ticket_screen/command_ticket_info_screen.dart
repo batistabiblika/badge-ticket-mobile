@@ -1,21 +1,21 @@
 import 'package:fbb_reg_ticket/components/widgets/button_solid.dart';
-import 'package:fbb_reg_ticket/model/command_meal.dart';
+import 'package:fbb_reg_ticket/model/command_ticket.dart';
 import 'package:fbb_reg_ticket/res/styles.dart';
 import 'package:fbb_reg_ticket/res/values.dart';
-import 'package:fbb_reg_ticket/screens/scan_meal_screen/components/meal_ticket_info_widget.dart';
+import 'package:fbb_reg_ticket/screens/scan_ticket_screen/components/command_ticket_info_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class MealTicketInfoScreen extends StatefulWidget {
+class CommandTicketInfoScreen extends StatefulWidget {
   final String ticketNumber;
-  const MealTicketInfoScreen({Key? key, required this.ticketNumber})
+  const CommandTicketInfoScreen({Key? key, required this.ticketNumber})
       : super(key: key);
 
   @override
-  State<StatefulWidget> createState() => _MealTicketInfoScreen();
+  State<StatefulWidget> createState() => _CommandTicketInfoScreen();
 }
 
-class _MealTicketInfoScreen extends State<MealTicketInfoScreen> {
+class _CommandTicketInfoScreen extends State<CommandTicketInfoScreen> {
   String _ticketNumber = "";
 
   @override
@@ -26,7 +26,7 @@ class _MealTicketInfoScreen extends State<MealTicketInfoScreen> {
       appBar: AppBar(
         // Here we take the value from the MyHomePage object that was created by
         // the App.build method, and use it to set our appbar title.
-        title: const Text("Information ticket repas"),
+        title: const Text("Information ticket"),
       ),
       body: SafeArea(
         child: Stack(children: [_content(), _bottomBar()]),
@@ -36,23 +36,27 @@ class _MealTicketInfoScreen extends State<MealTicketInfoScreen> {
 
   Widget _content() {
     return ListView(
-      padding: EdgeInsets.symmetric(vertical: 16, horizontal: 8),
+      padding: EdgeInsets.symmetric(
+          vertical: AppSizes.MARGIN_Y, horizontal: AppSizes.MARGIN_X),
       shrinkWrap: true,
       // children: [BadgeInfoWidget(badge: _badge)],
       children: [
         FutureBuilder(
-            future: CommandMeal.fetchCommandMeal(_ticketNumber),
+            future: CommandTicket.fetchCommandMeal(_ticketNumber),
             builder: (context, snapshot) {
               if (snapshot.hasError) {
                 return const Center(
                   child: Text('An error has occured'),
                 );
               } else if (snapshot.hasData) {
-                if (snapshot.data is CommandMeal) {
-                  CommandMeal commandMeal = snapshot.data as CommandMeal;
+                if (snapshot.data is CommandTicket) {
+                  CommandTicket commandMeal = snapshot.data as CommandTicket;
                   // print(badge.image);
-                  return MealTicketInfoWidget(
-                      number: _ticketNumber, commandMeal: commandMeal);
+                  return CommandTicketInfoWidget(
+                    number: _ticketNumber,
+                    commandMeal: commandMeal,
+                    showSleeping: true,
+                  );
                 } else if (snapshot.data is String) {
                   switch (snapshot.data as String) {
                     case "NOT_FOUND":

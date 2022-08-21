@@ -7,21 +7,21 @@ import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class MealDays {
+class DaysStatus {
   bool hasMer;
   bool hasJeu;
   bool hasVen;
   bool hasSam;
   bool hasDim;
-  MealDays({
+  DaysStatus({
     required this.hasMer,
     required this.hasJeu,
     required this.hasVen,
     required this.hasSam,
     required this.hasDim,
   });
-  factory MealDays.fromJson(Map<String, dynamic> json) {
-    return MealDays(
+  factory DaysStatus.fromJson(Map<String, dynamic> json) {
+    return DaysStatus(
       hasMer: json['hasMer'],
       hasJeu: json['hasJeu'],
       hasVen: json['hasVen'],
@@ -31,43 +31,52 @@ class MealDays {
   }
 }
 
-class CommandMeal {
+class CommandTicket {
   // String number;
-  MealDays breakfast;
-  MealDays lunch;
-  MealDays dinner;
-  CommandMeal({
+  DaysStatus breakfast;
+  DaysStatus lunch;
+  DaysStatus dinner;
+  DaysStatus sleeping;
+  CommandTicket({
     // required this.number,
     required this.breakfast,
     required this.lunch,
     required this.dinner,
+    required this.sleeping,
   });
 
-  factory CommandMeal.fromJson(Map<String, dynamic> json) {
-    return CommandMeal(
+  factory CommandTicket.fromJson(Map<String, dynamic> json) {
+    return CommandTicket(
       // number: json['number'],
-      breakfast: MealDays.fromJson(json['breakfast']),
-      lunch: MealDays.fromJson(json['lunch']),
-      dinner: MealDays.fromJson(json['dinner']),
+      breakfast: DaysStatus.fromJson(json['breakfast']),
+      lunch: DaysStatus.fromJson(json['lunch']),
+      dinner: DaysStatus.fromJson(json['dinner']),
+      sleeping: DaysStatus.fromJson(json['sleeping']),
     );
   }
 
-  factory CommandMeal.empty() {
-    return CommandMeal(
+  factory CommandTicket.empty() {
+    return CommandTicket(
       // number: "",
-      breakfast: MealDays(
+      breakfast: DaysStatus(
           hasMer: false,
           hasJeu: false,
           hasVen: false,
           hasSam: false,
           hasDim: false),
-      lunch: MealDays(
+      lunch: DaysStatus(
           hasMer: false,
           hasJeu: false,
           hasVen: false,
           hasSam: false,
           hasDim: false),
-      dinner: MealDays(
+      dinner: DaysStatus(
+          hasMer: false,
+          hasJeu: false,
+          hasVen: false,
+          hasSam: false,
+          hasDim: false),
+      sleeping: DaysStatus(
           hasMer: false,
           hasJeu: false,
           hasVen: false,
@@ -86,7 +95,7 @@ class CommandMeal {
           await Dio().get('$host/v2api/commands/$commandNumber/meals-status');
       // .get('$host/v2api/commands/$commandNumber/meals-status');
       if (response.statusCode == 200) {
-        return CommandMeal.fromJson(response.data);
+        return CommandTicket.fromJson(response.data);
         // } else if (response.statusCode == 404) {
         //   print("SORRY, YOU DID NOT BUY TICKET MEAL");
         //   return ("NOT_FOUND");
@@ -146,7 +155,7 @@ class CommandMeal {
     }
   }
 
-  static Widget configurationInformationWidget() {
+  /*  static Widget configurationInformationWidget() {
     Future<String> getMealConfig() async {
       final SharedPreferences prefs = await SharedPreferences.getInstance();
       String mealDay = prefs.getString('mealDay') ?? AppSettings.MEAL_DAY;
@@ -193,7 +202,7 @@ class CommandMeal {
     return Container(
       width: double.infinity,
       decoration: BoxDecoration(
-          border: Border.all(color: Color.fromARGB(54, 55, 67, 85)),
+          border: Border.all(color: AppColors.BORDER),
           borderRadius: BorderRadius.all(Radius.circular(8))),
       padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       child: Column(
@@ -223,4 +232,5 @@ class CommandMeal {
       ),
     );
   }
+ */
 }

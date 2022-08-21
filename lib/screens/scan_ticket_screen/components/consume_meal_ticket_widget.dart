@@ -1,11 +1,10 @@
 import 'package:fbb_reg_ticket/components/widgets/button_solid.dart';
-import 'package:fbb_reg_ticket/model/command_meal.dart';
-import 'package:fbb_reg_ticket/screens/scan_meal_screen/consume_meal_screen.dart';
+import 'package:fbb_reg_ticket/model/command_ticket.dart';
 import 'package:fbb_reg_ticket/res/styles.dart';
 import 'package:fbb_reg_ticket/res/values.dart';
-import 'package:fbb_reg_ticket/screens/scan_meal_screen/components/meal_ticket_info_widget.dart';
+import 'package:fbb_reg_ticket/screens/scan_ticket_screen/components/command_ticket_info_widget.dart';
+import 'package:fbb_reg_ticket/screens/scan_ticket_screen/components/meal_configuration_info_widget.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 
 class ConsumeMealTicketWidget extends StatefulWidget {
   final String ticketNumber;
@@ -20,7 +19,7 @@ class ConsumeMealTicketWidget extends StatefulWidget {
 class _ConsumeMealTicketWidgetState extends State<ConsumeMealTicketWidget> {
   // ticket number state
   String _ticketNumber = "";
-  CommandMeal _commandMeal = CommandMeal.empty();
+  CommandTicket _commandMeal = CommandTicket.empty();
   // information
   String? _information = "";
 
@@ -29,7 +28,7 @@ class _ConsumeMealTicketWidgetState extends State<ConsumeMealTicketWidget> {
   }
 
   void consumeMeal() async {
-    var result = await CommandMeal.consumeCommandMeal(_ticketNumber);
+    var result = await CommandTicket.consumeCommandMeal(_ticketNumber);
     // print(result);
     switch (result) {
       case "VALIDATED":
@@ -57,14 +56,14 @@ class _ConsumeMealTicketWidgetState extends State<ConsumeMealTicketWidget> {
     return Container(
       child: FutureBuilder(
         // future: verifyTicket(),
-        future: CommandMeal.fetchCommandMeal(_ticketNumber),
+        future: CommandTicket.fetchCommandMeal(_ticketNumber),
         builder: (context, snapshot) {
           if (snapshot.hasError) {
             return const Center(child: Text('An error has occured'));
           } else {
             if (snapshot.hasData) {
-              if (snapshot.data is CommandMeal) {
-                var commandMeal = snapshot.data as CommandMeal;
+              if (snapshot.data is CommandTicket) {
+                var commandMeal = snapshot.data as CommandTicket;
                 return _mealTicket(commandMeal);
               } else if (snapshot.data is String) {
                 /* return Text(
@@ -85,7 +84,7 @@ class _ConsumeMealTicketWidgetState extends State<ConsumeMealTicketWidget> {
     );
   }
 
-  Widget _mealTicket(CommandMeal commandMeal) {
+  Widget _mealTicket(CommandTicket commandMeal) {
     return ListView(
       padding: const EdgeInsets.all(16),
       shrinkWrap: true,
@@ -97,15 +96,16 @@ class _ConsumeMealTicketWidgetState extends State<ConsumeMealTicketWidget> {
         Container(
           margin: const EdgeInsets.only(top: 8),
           // Result
-          child: MealTicketInfoWidget(
+          child: CommandTicketInfoWidget(
               information: _information,
               number: _ticketNumber,
+              showSleeping: false,
               commandMeal: commandMeal),
         ),
         const SizedBox(
           height: 16,
         ),
-        CommandMeal.configurationInformationWidget(),
+        MealConfigurationInfoWidget(),
         const SizedBox(
           height: 16,
         ),

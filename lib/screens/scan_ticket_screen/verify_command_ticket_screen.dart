@@ -1,24 +1,22 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:fbb_reg_ticket/components/widgets/button_solid.dart';
-import 'package:fbb_reg_ticket/model/command_meal.dart';
 import 'package:fbb_reg_ticket/screens/qr_screen/qr_screen.dart';
 import 'package:fbb_reg_ticket/res/styles.dart';
 import 'package:fbb_reg_ticket/res/values.dart';
-import 'package:fbb_reg_ticket/screens/scan_meal_screen/components/meal_ticket_info_widget.dart';
-import 'package:fbb_reg_ticket/screens/scan_meal_screen/meal_ticket_info_screen.dart';
+import 'package:fbb_reg_ticket/screens/scan_ticket_screen/command_ticket_info_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class VerifyMealTicketScreen extends StatefulWidget {
+class VerifyCommandTicketScreen extends StatefulWidget {
   // declaration
-  const VerifyMealTicketScreen({Key? key}) : super(key: key);
+  const VerifyCommandTicketScreen({Key? key}) : super(key: key);
 
   @override
-  State<StatefulWidget> createState() => _VerifyMealTicketScreenState();
+  State<StatefulWidget> createState() => _VerifyCommandTicketScreenState();
 }
 
-class _VerifyMealTicketScreenState extends State<VerifyMealTicketScreen> {
+class _VerifyCommandTicketScreenState extends State<VerifyCommandTicketScreen> {
   final _formKey = GlobalKey<FormState>();
   // ticket number state
   String _ticketNumber = "";
@@ -39,30 +37,11 @@ class _VerifyMealTicketScreenState extends State<VerifyMealTicketScreen> {
   // CommandMeal _commandMeal = CommandMeal.empty();
 
   Future<void> verifyTicket({String? ticketNumber}) async {
-    // TODO : put here ticket verification from API
-    /* var commandMeal = await CommandMeal.fetchCommandMeal(_ticketNumber);
-    if (commandMeal is CommandMeal) {
-      setState(() {
-        setInformation(null);
-        _commandMeal = commandMeal;
-      });
-    } else {
-      setState(() {
-        setInformation("Ticket vide ou non acheté");
-        _commandMeal = CommandMeal.empty();
-      });
-    } */
-    /* if ((ticketNumber == null || ticketNumber == "") && _ticketNumber == "") {
-      ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text("Veuillez saisir le numéro du ticket")));
-      return;
-    } */
-
     Navigator.of(context).pushReplacement(
       MaterialPageRoute<void>(
         // CupertinoPageRoute<void>(
         builder: (BuildContext context) {
-          return MealTicketInfoScreen(
+          return CommandTicketInfoScreen(
             ticketNumber: ticketNumber ?? _ticketNumber,
           );
         },
@@ -74,7 +53,7 @@ class _VerifyMealTicketScreenState extends State<VerifyMealTicketScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Verifier ticket sakafo"),
+        title: Text("Vérifier ticket sakafo"),
       ),
       body: SafeArea(
         // body: SingleChildScrollView(

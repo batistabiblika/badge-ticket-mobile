@@ -37,7 +37,8 @@ class _BadgeInfoScreen extends State<BadgeInfoScreen> {
 
   Widget _content() {
     return ListView(
-      padding: EdgeInsets.symmetric(vertical: 16, horizontal: 8),
+      padding: EdgeInsets.symmetric(
+          vertical: AppSizes.MARGIN_Y, horizontal: AppSizes.MARGIN_X),
       shrinkWrap: true,
       // children: [BadgeInfoWidget(badge: _badge)],
       children: [

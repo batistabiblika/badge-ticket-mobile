@@ -1,13 +1,13 @@
 import 'dart:io';
 
 import 'package:fbb_reg_ticket/components/widgets/button_solid.dart';
-import 'package:fbb_reg_ticket/screens/scan_meal_screen/consume_meal_screen.dart';
+import 'package:fbb_reg_ticket/screens/scan_ticket_screen/consume_meal_screen.dart';
 import 'package:fbb_reg_ticket/res/styles.dart';
 import 'package:fbb_reg_ticket/res/values.dart';
-import 'package:fbb_reg_ticket/screens/consume_meal_validated_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ScanMealTicketScreen extends StatefulWidget {
   // declaration
@@ -18,6 +18,8 @@ class ScanMealTicketScreen extends StatefulWidget {
 }
 
 class _ScanMealTicketScreenState extends State<ScanMealTicketScreen> {
+  final _formKey = GlobalKey<FormState>();
+
   String _ticketNumber = "";
   String _mode = "SCAN"; // ||"VERIFY" || "SUCCESS" || "ERROR"
   void setMode(String value) {
@@ -50,6 +52,17 @@ class _ScanMealTicketScreenState extends State<ScanMealTicketScreen> {
     );
   }
 
+  void switchFlash() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    if (controller != null && mounted) {
+      var isFlashOn = await controller!.getFlashStatus() ?? false;
+      bool flashPref = prefs.getBool('flash') ?? AppSettings.FLASH;
+      if (!isFlashOn && flashPref) {
+        controller!.toggleFlash();
+      }
+    }
+  }
+
   // In order to get hot reload to work we need to pause the camera if the platform
   // is android, or resume the camera if the platform is iOS.
   @override
@@ -67,6 +80,7 @@ class _ScanMealTicketScreenState extends State<ScanMealTicketScreen> {
     if (controller != null && mounted) {
       controller!.pauseCamera();
       controller!.resumeCamera();
+      switchFlash();
     }
 
     return Scaffold(
@@ -108,29 +122,45 @@ class _ScanMealTicketScreenState extends State<ScanMealTicketScreen> {
           'Ticket n° ${_ticketNumber}',
           style: AppTextStyle.head2(color: AppColors.PRIMARY),
         ),
-        TextFormField(
-          autofocus: false,
-          decoration: const InputDecoration(
-            // icon: Icon(CupertinoIcons.ticket),
-            // labelText: "Ticket n°",
-            hintText: "Ex. 001A",
-          ),
-          onChanged: (String? value) {
-            setTicketNumber(value!);
-          },
-        ),
-        const SizedBox(
-          height: 16,
-        ),
-        ButtonSolid(
-          "Hisakafo",
-          icon: CupertinoIcons.tickets,
-          color: AppColors.SECONDARY,
-          onPressed: () {
-            // Navigator.pushNamed(context, '/consume');
-            verifyTicket(_ticketNumber);
-          },
-        )
+        Form(
+            key: _formKey,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                TextFormField(
+                  autofocus: false,
+                  decoration: const InputDecoration(
+                    // icon: Icon(CupertinoIcons.ticket),
+                    // labelText: "Ticket n°",
+                    hintText: "Ex. 001A",
+                  ),
+                  onChanged: (String? value) {
+                    setTicketNumber(value!);
+                  },
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Entrer le numéro du ticket SVP';
+                    }
+                    return null;
+                  },
+                ),
+                const SizedBox(
+                  height: 16,
+                ),
+                ButtonSolid(
+                  "Hisakafo",
+                  icon: CupertinoIcons.tickets,
+                  color: AppColors.SECONDARY,
+                  onPressed: () {
+                    if (!_formKey.currentState!.validate()) {
+                      return;
+                    }
+                    // Navigator.pushNamed(context, '/consume');
+                    verifyTicket(_ticketNumber);
+                  },
+                )
+              ],
+            )),
       ],
     ));
   }

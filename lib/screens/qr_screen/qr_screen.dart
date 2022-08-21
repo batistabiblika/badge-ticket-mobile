@@ -4,6 +4,7 @@ import 'package:fbb_reg_ticket/res/styles.dart';
 import 'package:fbb_reg_ticket/res/values.dart';
 import 'package:flutter/material.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class QrScreen extends StatefulWidget {
   // declaration
@@ -21,11 +22,41 @@ class _QrScreenState extends State<QrScreen> {
     });
   }
 
+  bool _flash = AppSettings.FLASH;
+  void setFlash(bool value) {
+    setState(() {
+      _flash = value;
+    });
+  }
+
   // QR code
   Barcode? result;
   QRViewController? controller;
   final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
 
+  // shared preference
+  final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
+
+  void switchFlash() async {
+    final SharedPreferences prefs = await _prefs;
+    if (controller != null && mounted) {
+      var isFlashOn = await controller!.getFlashStatus() ?? false;
+      bool flashPref = prefs.getBool('flash') ?? AppSettings.FLASH;
+      if (!isFlashOn && flashPref) {
+        controller!.toggleFlash();
+      }
+    }
+  }
+
+  Future<void> loadSetting() async {
+    // print("Loading setting");
+    final SharedPreferences prefs = await _prefs;
+    bool flash = prefs.getBool('flash') ?? AppSettings.FLASH;
+    setFlash(flash);
+  }
+
+  // In order to get hot reload to work we need to pause the camera if the platform
+  // is android, or resume the camera if the platform is iOS.
   @override
   void reassemble() {
     super.reassemble();
@@ -36,12 +67,20 @@ class _QrScreenState extends State<QrScreen> {
   }
 
   @override
+  void initState() {
+    super.initState();
+    loadSetting();
+  }
+
+  @override
   Widget build(BuildContext context) {
     // avoid black camera screen error
     if (controller != null && mounted) {
       controller!.pauseCamera();
       controller!.resumeCamera();
+      switchFlash();
     }
+
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
@@ -72,6 +111,40 @@ class _QrScreenState extends State<QrScreen> {
           margin: EdgeInsets.only(bottom: 16),
           height: 360,
           child: _buildQrView(context),
+        ),
+
+        Container(
+            height: 48,
+            width: double.infinity,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  "Flash du scan (appareil photo)",
+                  style: AppTextStyle.text(color: AppColors.PRIMARY),
+                ),
+                Switch(
+                    value: _flash,
+                    activeColor: AppColors.GREEN,
+                    onChanged: (value) async {
+                      setFlash(value);
+                      if (controller != null && mounted) {
+                        controller!.toggleFlash();
+                        // var isFlashOn =
+                        //     await controller!.getFlashStatus() ?? false;
+                        // if (!isFlashOn ) {
+                        //   controller!.toggleFlash();
+                        // }
+                      }
+
+                      SharedPreferences prefs = await _prefs;
+                      await prefs.setBool('flash', value);
+                    })
+              ],
+            )),
+
+        SizedBox(
+          height: 8,
         ),
         Text(
           'Scan n° ${_qrNumber}',

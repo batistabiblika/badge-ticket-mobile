@@ -21,11 +21,19 @@ class _SettingScreen extends State<SettingScreen> {
     });
   }
 
+  bool _flash = AppSettings.FLASH;
+  void setFlash(bool value) {
+    setState(() {
+      _flash = value;
+    });
+  }
+
   // shared preference
   final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
   Future<void> saveSetting() async {
     final SharedPreferences prefs = await _prefs;
     await prefs.setString('host', _host);
+    await prefs.setBool('flash', _flash);
   }
 
   Future<void> loadSetting() async {
@@ -33,6 +41,8 @@ class _SettingScreen extends State<SettingScreen> {
     final SharedPreferences prefs = await _prefs;
     String host = prefs.getString('host') ?? AppSettings.HOST;
     setHost(host);
+    bool flash = prefs.getBool('flash') ?? AppSettings.FLASH;
+    setFlash(flash);
   }
 
   @override
@@ -70,32 +80,17 @@ class _SettingScreen extends State<SettingScreen> {
 
   Widget configureMealContent(BuildContext context) {
     return ListView(
-      padding: EdgeInsets.symmetric(vertical: 16, horizontal: 8),
+      padding: EdgeInsets.symmetric(
+          vertical: AppSizes.MARGIN_Y, horizontal: AppSizes.MARGIN_X),
       shrinkWrap: true,
       children: [
         // Date du repas
         Text(
-          'Adresse web ou IP et port du serveur',
+          'Adresse web ou IP et port du serveur :',
           style: AppTextStyle.text(color: AppColors.PRIMARY),
         ),
         Container(
           margin: const EdgeInsets.only(top: 16),
-          // decoration: BoxDecoration(color: AppColors.BTN_BG_LIGHT),
-          // height: 48,
-          /* child: TextFormField(
-            // key: Key(_host.toString()),
-            initialValue: _host,
-            autofocus: false,
-            decoration: const InputDecoration(
-              hintText: "Ex. 192.168.1.1:3000",
-            ),
-            onChanged: (String? value) {
-              setHost(value!);
-            },
-            onFieldSubmitted: (String? value) {
-              setHost(value!);
-            },
-          ), */
           child: Container(
             height: 48,
             child: TextButton(
@@ -121,24 +116,26 @@ class _SettingScreen extends State<SettingScreen> {
               },
             ),
           ),
-          /* child: GestureDetector(
-            onTap: () {
-              _displayHostDialog(context);
-            },
-            child: Expanded(
-                child: Container(
-              height: 40,
-              child: Column(
-                children: [
-                  Text(
-                    _host,
-                    style: AppTextStyle.head3(),
-                  )
-                ],
-              ),
-            )),
-          ), */
         ),
+        const Divider(color: AppColors.PRIMARY),
+        Container(
+            height: 48,
+            width: double.infinity,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  "Flash du scan (appareil photo)",
+                  style: AppTextStyle.text(color: AppColors.PRIMARY),
+                ),
+                Switch(
+                    value: _flash,
+                    activeColor: AppColors.GREEN,
+                    onChanged: (value) {
+                      setFlash(value);
+                    })
+              ],
+            ))
       ],
     );
   }
