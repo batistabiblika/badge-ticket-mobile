@@ -36,11 +36,13 @@ class Badge {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     String host = prefs.getString('host') ?? AppSettings.HOST;
     try {
-      var response = await Dio().get('http://$host/v2api/badges/$badgeNumber');
+      var response = await Dio().get('$host/v2api/badges/$badgeNumber');
+      // var response = await Dio().get('http://$host/v2api/badges/$badgeNumber');
       if (response.statusCode == 200) {
         Badge badge = Badge.fromJson(response.data);
         if (badge.image != null && badge.image != "") {
-          badge.image = 'http://$host/uploads/${badge.image}';
+          badge.image = '$host/uploads/${badge.image}';
+          // badge.image = 'http://$host/uploads/${badge.image}';
         }
         return badge;
       } else {

@@ -57,7 +57,7 @@ class _ScanBadgeScreenState extends State<ScanBadgeScreen> {
                 elevation: 0,
                 shape: const CircularNotchedRectangle(),
                 color: AppColors.TRANSPARENT,
-                child: bottomBar(context),
+                child: _bottomBar(context),
               ),
             ),
           ],
@@ -77,7 +77,7 @@ class _ScanBadgeScreenState extends State<ScanBadgeScreen> {
           'Saisir n° badge',
           style: AppTextStyle.text(color: AppColors.PRIMARY),
         ),
-        TextFormField(
+        /* TextFormField(
           autofocus: false,
           // controller: _textController,
           decoration: const InputDecoration(
@@ -91,26 +91,73 @@ class _ScanBadgeScreenState extends State<ScanBadgeScreen> {
           onFieldSubmitted: (String? value) {
             verifyBadge(badgeNumber: value);
           },
+        ), */
+
+        Container(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Flexible(
+                child: TextFormField(
+                  autofocus: false,
+                  // controller: _textController,
+                  decoration: const InputDecoration(
+                    // icon: Icon(CupertinoIcons.ticket),
+                    // labelText: "Ticket n°",
+                    hintText: "Ex. 001A",
+                  ),
+                  onChanged: (String? value) {
+                    setBadgeNumber(value!);
+                  },
+                  onFieldSubmitted: (String? value) {
+                    verifyBadge(badgeNumber: value);
+                  },
+                ),
+              ),
+              IconButton(
+                  onPressed: verifyBadge,
+                  icon: const Icon(
+                    color: AppColors.PRIMARY,
+                    CupertinoIcons.search_circle_fill,
+                    size: 40,
+                  ))
+            ],
+          ),
         ),
 
-        SizedBox(
-          height: 16,
-        ),
-        Text(
-          'Ou scanner',
-          style: AppTextStyle.text(color: AppColors.PRIMARY),
-        ),
         // QR Scan
         // Detect button
-        Container(
+        /* Container(
           margin: const EdgeInsets.only(top: 16),
           // decoration: BoxDecoration(color: AppColors.BTN_BG_LIGHT),
           height: 48,
           child: ButtonSolid(
-            "Scanner",
+            "Vérifier",
             onPressed: () async {
-              // TODO SCan QR
-              // print('Scanner');
+              verifyBadge();
+            },
+            icon: CupertinoIcons.person,
+            color: AppColors.PRIMARY,
+          ),
+        ), */
+      ],
+    ));
+  }
+
+  Widget _bottomBar(BuildContext context) {
+    return Container(
+      alignment: Alignment.bottomCenter,
+      child: BottomAppBar(
+        elevation: 0,
+        // shape: const CircularNotchedRectangle(),
+        child: Container(
+          padding: const EdgeInsets.all(8),
+          width: double.infinity,
+          child: ButtonSolid(
+            'Scanner',
+            color: AppColors.PRIMARY,
+            icon: CupertinoIcons.camera,
+            onPressed: () async {
               var result = await Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) => const QrScreen()),
@@ -121,19 +168,10 @@ class _ScanBadgeScreenState extends State<ScanBadgeScreen> {
                 verifyBadge(badgeNumber: result);
               }
             },
-            icon: CupertinoIcons.camera,
-            color: AppColors.PRIMARY,
           ),
         ),
-        SizedBox(
-          height: 24,
-        ),
-        Text(
-          'Badge n° ${_badgeNumber}',
-          style: AppTextStyle.head2(color: AppColors.PRIMARY),
-        ),
-      ],
-    ));
+      ),
+    );
   }
 
   Widget bottomBar(BuildContext context) {

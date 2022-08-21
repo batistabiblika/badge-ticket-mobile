@@ -1,8 +1,10 @@
+import 'package:fbb_reg_ticket/model/command_meal.dart';
 import 'package:fbb_reg_ticket/res/styles.dart';
 import 'package:fbb_reg_ticket/res/values.dart';
 import 'package:fbb_reg_ticket/screens/scan_meal_screen/scan_meal_ticket_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ConsumeMealValidatedScreen extends StatelessWidget {
   final bool isSuccess;
@@ -44,6 +46,13 @@ class ConsumeMealValidatedScreen extends StatelessWidget {
 
   // Content Widget
   Widget contentWidget(bool isSuccess) {
+    Future<String> getMealConfig() async {
+      final SharedPreferences prefs = await SharedPreferences.getInstance();
+      String mealDay = prefs.getString('mealDay') ?? AppSettings.MEAL_DAY;
+      String mealType = prefs.getString('mealType') ?? AppSettings.MEAL_TYPE;
+      return ('$mealDay/$mealType');
+    }
+
     Widget successWidget = Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.center,
@@ -77,17 +86,39 @@ class ConsumeMealValidatedScreen extends StatelessWidget {
           if (message == "NOT_FOUND")
             Text(
               "Numéro du ticket innexistant",
-              style: AppTextStyle.text(),
+              style: AppTextStyle.head2(),
             ),
           if (message == "CONSUMED")
             Text(
               "Repas déja consommé",
-              style: AppTextStyle.text(),
+              style: AppTextStyle.head2(),
             ),
           if (message == "INVALID")
             Text("Configuration du repas invalide ou ticket non acheté",
-                style: AppTextStyle.text()),
-          if (message == "REFUSED") const Text("REFUSED"),
+                style: AppTextStyle.head2()),
+          if (message == "REFUSED") const Text("Network error or REFUSED"),
+          SizedBox(
+            height: 16,
+          ),
+          CommandMeal.configurationInformationWidget(),
+
+          /* SizedBox(
+            height: 16,
+          ),
+          Text(
+            "Information concernant la configuration du repas :",
+          ),
+          FutureBuilder(
+              future: getMealConfig(),
+              builder: ((context, snapshot) {
+                if (snapshot.hasData && snapshot.data is String) {
+                  return Text(
+                    snapshot.data as String,
+                    // style: AppTextStyle.text(),
+                  );
+                }
+                return SizedBox();
+              })), */
         ]);
 
     Widget renderedWidget = failedWidget;
@@ -95,8 +126,9 @@ class ConsumeMealValidatedScreen extends StatelessWidget {
       renderedWidget = successWidget;
     }
     return Center(
-      heightFactor: 0.9,
-      child: renderedWidget,
+      // heightFactor: 0.9,
+      child: SingleChildScrollView(
+          padding: EdgeInsets.all(AppSizes.MARGIN_X), child: renderedWidget),
     );
   }
 

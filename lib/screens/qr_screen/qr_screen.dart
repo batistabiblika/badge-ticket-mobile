@@ -37,7 +37,13 @@ class _QrScreenState extends State<QrScreen> {
 
   @override
   Widget build(BuildContext context) {
+    // avoid black camera screen error
+    if (controller != null && mounted) {
+      controller!.pauseCamera();
+      controller!.resumeCamera();
+    }
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         // Here we take the value from the MyHomePage object that was created by
         // the App.build method, and use it to set our appbar title.

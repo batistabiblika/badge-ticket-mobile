@@ -30,7 +30,7 @@ class _ConsumeMealTicketWidgetState extends State<ConsumeMealTicketWidget> {
 
   void consumeMeal() async {
     var result = await CommandMeal.consumeCommandMeal(_ticketNumber);
-    print(result);
+    // print(result);
     switch (result) {
       case "VALIDATED":
         Navigator.pushReplacementNamed(context, '/consume_validated');
@@ -102,6 +102,10 @@ class _ConsumeMealTicketWidgetState extends State<ConsumeMealTicketWidget> {
               number: _ticketNumber,
               commandMeal: commandMeal),
         ),
+        const SizedBox(
+          height: 16,
+        ),
+        CommandMeal.configurationInformationWidget(),
         const SizedBox(
           height: 16,
         ),

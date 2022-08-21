@@ -63,6 +63,12 @@ class _ScanMealTicketScreenState extends State<ScanMealTicketScreen> {
 
   @override
   Widget build(BuildContext context) {
+    // avoid black camera screen error
+    if (controller != null && mounted) {
+      controller!.pauseCamera();
+      controller!.resumeCamera();
+    }
+
     return Scaffold(
       appBar: AppBar(
         // Here we take the value from the MyHomePage object that was created by

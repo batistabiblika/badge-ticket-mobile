@@ -124,9 +124,10 @@ class _VerifyMealTicketScreenState extends State<VerifyMealTicketScreen> {
                   ),
                   IconButton(
                       onPressed: verifyTicket,
-                      icon: Icon(
-                        CupertinoIcons.checkmark_alt_circle_fill,
-                        size: 32,
+                      icon: const Icon(
+                        color: AppColors.PRIMARY,
+                        CupertinoIcons.search_circle_fill,
+                        size: 40,
                       ))
                 ],
               ),

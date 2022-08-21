@@ -2,7 +2,11 @@
 
 A new Flutter project.
 
-## Getting Started
+## Build an APK
+```
+flutter build apk
+```
+## Flutter - Getting Started
 
 This project is a starting point for a Flutter application.
 

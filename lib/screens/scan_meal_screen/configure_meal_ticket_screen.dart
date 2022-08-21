@@ -111,11 +111,11 @@ class _ConfigureMealTicketScreen extends State<ConfigureMealTicketScreen> {
               setMealDay(value!);
             },
             items: const [
-              DropdownMenuItem(value: "MER", child: Text("Alarobia")),
-              DropdownMenuItem(value: "JEU", child: Text("Alakamisy")),
-              DropdownMenuItem(value: "VEN", child: Text("Zoma")),
-              DropdownMenuItem(value: "SAM", child: Text("Sabotsy")),
-              DropdownMenuItem(value: "DIM", child: Text("Alahady")),
+              DropdownMenuItem(value: "MER", child: Text("Mercredi")),
+              DropdownMenuItem(value: "JEU", child: Text("Jeudi")),
+              DropdownMenuItem(value: "VEN", child: Text("Vendredi")),
+              DropdownMenuItem(value: "SAM", child: Text("Samedi")),
+              DropdownMenuItem(value: "DIM", child: Text("Dimanche")),
             ],
           ),
         ),
@@ -140,15 +140,16 @@ class _ConfigureMealTicketScreen extends State<ConfigureMealTicketScreen> {
             },
             items: const [
               DropdownMenuItem(
-                  value: "BREAKFAST", child: Text("Sakafo maraina")),
-              DropdownMenuItem(value: "LUNCH", child: Text("Sakafo atoandro")),
-              DropdownMenuItem(value: "DINNER", child: Text("Sakafo hariva")),
+                  value: "BREAKFAST", child: Text("Petit déjeuner (Maraina)")),
+              DropdownMenuItem(
+                  value: "LUNCH", child: Text("Déjeuner (Atoandro)")),
+              DropdownMenuItem(value: "DINNER", child: Text("Dinner (Hariva)")),
             ],
           ),
         ),
 
         // Detect button
-        Container(
+        /* Container(
           margin: const EdgeInsets.only(top: 16),
           // decoration: BoxDecoration(color: AppColors.BTN_BG_LIGHT),
           height: 40,
@@ -162,7 +163,7 @@ class _ConfigureMealTicketScreen extends State<ConfigureMealTicketScreen> {
                 elevation: 0,
                 primary: AppColors.PRIMARY),
           ),
-        ),
+        ), */
       ],
     );
   }
@@ -182,7 +183,7 @@ class _ConfigureMealTicketScreen extends State<ConfigureMealTicketScreen> {
             icon: CupertinoIcons.square_arrow_down,
             onPressed: () {
               saveSetting();
-              Navigator.of(context).pop();
+              Navigator.of(context).pushReplacementNamed('/');
             },
           ),
         ),

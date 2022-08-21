@@ -1,11 +1,20 @@
 import 'package:fbb_reg_ticket/components/widgets/button_tile.dart';
+import 'package:fbb_reg_ticket/model/command_meal.dart';
 import 'package:fbb_reg_ticket/res/styles.dart';
 import 'package:fbb_reg_ticket/res/values.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
+
+  @override
+  State<StatefulWidget> createState() => _HomeScreenState();
+  
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  _HomeScreenState();
 
   // This widget is the root of your application.
   @override
@@ -39,6 +48,7 @@ class HomeScreen extends StatelessWidget {
       ),
     );
   }
+  
 
   Widget contentWidget(BuildContext context) {
     return Stack(
@@ -115,6 +125,11 @@ class HomeScreen extends StatelessWidget {
                 Navigator.pushNamed(context, '/scan_meal_ticket');
               }),
 
+              SizedBox(
+                height: 8,
+              ),
+              CommandMeal.configurationInformationWidget(),
+
               /* // Margin
               SizedBox(
                 height: 8,
@@ -130,4 +145,6 @@ class HomeScreen extends StatelessWidget {
       ],
     );
   }
+
+ 
 }

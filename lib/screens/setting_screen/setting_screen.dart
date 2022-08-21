@@ -14,7 +14,7 @@ class SettingScreen extends StatefulWidget {
 class _SettingScreen extends State<SettingScreen> {
   // host address state
   // String _host = "192.168.1.1:3000";
-  String _host = '192.168.1.1:3000';
+  String _host = AppSettings.HOST;
   void setHost(String value) {
     setState(() {
       _host = value;
@@ -31,7 +31,7 @@ class _SettingScreen extends State<SettingScreen> {
   Future<void> loadSetting() async {
     // print("Loading setting");
     final SharedPreferences prefs = await _prefs;
-    String host = prefs.getString('host') ?? '192.168.1.1:4000';
+    String host = prefs.getString('host') ?? AppSettings.HOST;
     setHost(host);
   }
 

@@ -70,7 +70,7 @@ class AppSizes {
 
 class AppSettings {
   // static const String HOST = "192.168.43.152:8000";
-  static const String HOST = "gesttick.batista-biblika.mg";
+  static const String HOST = "https://gesttick.batista-biblika.mg";
   static const String MEAL_DAY = "MER";
   static const String MEAL_TYPE = "BREAKFAST";
 }
