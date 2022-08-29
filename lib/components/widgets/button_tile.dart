@@ -16,7 +16,7 @@ class ButtonTile extends StatelessWidget {
       required this.onPressed,
       this.color,
       this.height,
-      this.borderRadius = 8,
+      this.borderRadius = AppSizes.BUTTON_TILE_BORDER_RADIUS,
       this.isLightMode = false,
       this.icon = CupertinoIcons.person,
       this.fontSize = 16})

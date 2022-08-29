@@ -23,6 +23,7 @@ class _HomeScreenState extends State<HomeScreen> {
       appBar: AppBar(
         // Here we take the value from the MyHomePage object that was created by
         // the App.build method, and use it to set our appbar title.
+        centerTitle: true,
         title: Text("FFBBM 90e"),
         leading: IconButton(
           onPressed: () {
@@ -33,11 +34,29 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
         actions: [
           IconButton(
-            tooltip: "Logout",
+            tooltip: "About",
             onPressed: () {
               // Setting
+              showDialog(
+                context: context,
+                builder: (ctx) => AlertDialog(
+                  title: const Text("A propos"),
+                  content: Text(
+                    "Vérification badge et ticket 90e FFBBM",
+                    style: AppTextStyle.text(),
+                  ),
+                  actions: <Widget>[
+                    TextButton(
+                      onPressed: () {
+                        Navigator.of(ctx).pop();
+                      },
+                      child: Text("OK"),
+                    ),
+                  ],
+                ),
+              );
             },
-            icon: Icon(CupertinoIcons.square_arrow_left),
+            icon: Icon(Icons.help_outline_rounded),
           ),
         ],
         // title: Text(widget.title),
@@ -58,7 +77,7 @@ class _HomeScreenState extends State<HomeScreen> {
           child: ListView(
             padding: const EdgeInsets.symmetric(
                 vertical: AppSizes.MARGIN_Y, horizontal: AppSizes.MARGIN_X),
-            shrinkWrap: true,
+            shrinkWrap: false,
             // mainAxisAlignment: MainAxisAlignment.start,
             // crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
@@ -67,7 +86,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 margin: const EdgeInsets.only(bottom: 8),
                 child: Text(
                   "Badge",
-                  style: AppTextStyle.text(color: AppColors.PRIMARY),
+                  style: AppTextStyle.head3(),
                 ),
               ),
               ButtonTile("Vérifier badge",
@@ -86,31 +105,43 @@ class _HomeScreenState extends State<HomeScreen> {
               Container(
                 margin: const EdgeInsets.only(bottom: 8),
                 child: Text(
-                  "Repas (Sakafo)",
-                  style: AppTextStyle.text(color: AppColors.PRIMARY),
+                  // "Ticket (Repas, Bus, Séjour)",
+                  "Ticket (Repas, Transport)",
+                  style: AppTextStyle.head3(),
                 ),
+              ),
+
+              MealConfigurationInfoWidget(),
+              SizedBox(
+                height: 16,
               ),
               Row(
                 children: [
                   Expanded(
-                    child: ButtonTile("Configurer repas",
-                        height: 80,
-                        icon: Icons.alarm,
-                        isLightMode: true,
-                        color: AppColors.PRIMARY, onPressed: () {
-                      Navigator.pushNamed(context, '/config_meal');
-                    }),
+                    child: Container(
+                      constraints: BoxConstraints(minHeight: 96),
+                      child: ButtonTile("Configurer repas",
+                          // height: 80,
+                          icon: Icons.alarm,
+                          isLightMode: true,
+                          color: AppColors.PRIMARY, onPressed: () {
+                        Navigator.pushNamed(context, '/config_meal');
+                      }),
+                    ),
                   ),
                   SizedBox(
                     width: 8,
                   ),
                   Expanded(
-                      child: ButtonTile("Information ticket",
-                          height: 80,
-                          icon: CupertinoIcons.tickets,
-                          color: AppColors.PRIMARY, onPressed: () {
-                    Navigator.pushNamed(context, '/verify_meal_ticket');
-                  })),
+                    child: Container(
+                        constraints: BoxConstraints(minHeight: 96),
+                        child: ButtonTile("Information ticket",
+                            // height: 80,
+                            icon: CupertinoIcons.tickets,
+                            color: AppColors.PRIMARY, onPressed: () {
+                          Navigator.pushNamed(context, '/verify_meal_ticket');
+                        })),
+                  ),
                 ],
               ),
 
@@ -124,10 +155,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 Navigator.pushNamed(context, '/scan_meal_ticket');
               }),
 
-              SizedBox(
-                height: 8,
-              ),
-              MealConfigurationInfoWidget(),
+              // MealConfigurationInfoWidget(),
 
               /* // Margin
               SizedBox(

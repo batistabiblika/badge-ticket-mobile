@@ -91,7 +91,7 @@ class _ConfigureMealTicketScreen extends State<ConfigureMealTicketScreen> {
     return ListView(
       padding: EdgeInsets.symmetric(
           vertical: AppSizes.MARGIN_Y, horizontal: AppSizes.MARGIN_X),
-      shrinkWrap: true,
+      shrinkWrap: false,
       children: [
         // Date du repas
         Text(
@@ -105,7 +105,7 @@ class _ConfigureMealTicketScreen extends State<ConfigureMealTicketScreen> {
           child: DropdownButton(
             isExpanded: true,
             alignment: AlignmentDirectional.topStart,
-            style: AppTextStyle.head3(color: AppColors.PRIMARY),
+            style: AppTextStyle.head4(color: AppColors.TEXT_DARK),
             itemHeight: 48,
             value: _mealDay,
             onChanged: (String? value) {
@@ -133,7 +133,7 @@ class _ConfigureMealTicketScreen extends State<ConfigureMealTicketScreen> {
           child: DropdownButton(
             isExpanded: true,
             alignment: AlignmentDirectional.topStart,
-            style: AppTextStyle.head3(color: AppColors.PRIMARY),
+            style: AppTextStyle.head4(color: AppColors.TEXT_DARK),
             itemHeight: 48,
             value: _mealType,
             onChanged: (String? value) {

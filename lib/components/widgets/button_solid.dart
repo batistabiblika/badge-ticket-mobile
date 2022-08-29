@@ -30,8 +30,20 @@ class ButtonSolid extends StatelessWidget {
                 backgroundColor: AppColors.PRIMARY_TRANSLUSCENT,
                 elevation: 0,
                 primary: color,
-                padding: const EdgeInsets.all(0))
-            : ElevatedButton.styleFrom(elevation: 0, primary: color),
+                padding: const EdgeInsets.all(0),
+                shape: RoundedRectangleBorder(
+                  borderRadius:
+                      BorderRadius.circular(AppSizes.BUTTON_BORDER_RADIUS),
+                ),
+              )
+            : ElevatedButton.styleFrom(
+                elevation: 0,
+                primary: color,
+                shape: RoundedRectangleBorder(
+                  borderRadius:
+                      BorderRadius.circular(AppSizes.BUTTON_BORDER_RADIUS),
+                ),
+              ),
         onPressed: onPressed,
         child: FittedBox(
           child: Row(

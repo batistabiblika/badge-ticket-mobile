@@ -1,3 +1,4 @@
+import 'package:fbb_reg_ticket/components/widgets/button_solid.dart';
 import 'package:fbb_reg_ticket/res/styles.dart';
 import 'package:fbb_reg_ticket/res/values.dart';
 import 'package:flutter/cupertino.dart';
@@ -57,19 +58,19 @@ class _SettingScreen extends State<SettingScreen> {
       appBar: AppBar(
         // Here we take the value from the MyHomePage object that was created by
         // the App.build method, and use it to set our appbar title.
-        title: const Text("Configuration repas"),
+        title: const Text("Configuration"),
       ),
       body: SafeArea(
         child: Stack(
           children: [
-            configureMealContent(context),
+            settingScreenContent(context),
             Container(
               alignment: Alignment.bottomLeft,
               child: BottomAppBar(
                 elevation: 0,
                 shape: const CircularNotchedRectangle(),
                 color: AppColors.TRANSPARENT,
-                child: bottomBar(context),
+                child: _bottomBar(context),
               ),
             ),
           ],
@@ -78,7 +79,7 @@ class _SettingScreen extends State<SettingScreen> {
     );
   }
 
-  Widget configureMealContent(BuildContext context) {
+  Widget settingScreenContent(BuildContext context) {
     return ListView(
       padding: EdgeInsets.symmetric(
           vertical: AppSizes.MARGIN_Y, horizontal: AppSizes.MARGIN_X),
@@ -140,7 +141,30 @@ class _SettingScreen extends State<SettingScreen> {
     );
   }
 
-  Widget bottomBar(BuildContext context) {
+  Widget _bottomBar(BuildContext context) {
+    return Container(
+      alignment: Alignment.bottomCenter,
+      child: BottomAppBar(
+        elevation: 0,
+        // shape: const CircularNotchedRectangle(),
+        child: Container(
+          padding: const EdgeInsets.all(8),
+          width: double.infinity,
+          child: ButtonSolid(
+            'Enregistrer',
+            color: AppColors.PRIMARY,
+            icon: CupertinoIcons.square_arrow_down,
+            onPressed: () {
+              saveSetting();
+              Navigator.of(context).pop();
+            },
+          ),
+        ),
+      ),
+    );
+  }
+
+  /* Widget bottomBar(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(8),
       child: Column(
@@ -181,7 +205,7 @@ class _SettingScreen extends State<SettingScreen> {
         ],
       ),
     );
-  }
+  } */
 
   Future<void> _displayHostDialog(BuildContext context) async {
     String host = _host;

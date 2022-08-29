@@ -53,7 +53,7 @@ class _VerifyCommandTicketScreenState extends State<VerifyCommandTicketScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Vérifier ticket sakafo"),
+        title: Text("Information ticket sakafo"),
       ),
       body: SafeArea(
         // body: SingleChildScrollView(
@@ -80,7 +80,7 @@ class _VerifyCommandTicketScreenState extends State<VerifyCommandTicketScreen> {
         child: ListView(
       padding: const EdgeInsets.symmetric(
           vertical: AppSizes.MARGIN_Y, horizontal: AppSizes.MARGIN_X),
-      shrinkWrap: true,
+      shrinkWrap: false,
       children: <Widget>[
         Text(
           'Ticket n°',

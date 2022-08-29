@@ -60,31 +60,46 @@ class _MealConfigurationInfoWidgetState
     return Container(
       width: double.infinity,
       decoration: BoxDecoration(
-          border: Border.all(color: AppColors.BORDER),
-          borderRadius: BorderRadius.all(Radius.circular(8))),
-      padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-      child: Column(
+          // border: Border.all(color: AppColors.BORDER),
+          borderRadius: BorderRadius.all(Radius.circular(16))),
+      // padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            "Repas concerné :",
-            style: AppTextStyle.text(),
-            textAlign: TextAlign.center,
+          Container(
+            padding: EdgeInsets.only(top: 8, right: 8),
+            child: Icon(
+              CupertinoIcons.info_circle,
+              size: 40,
+              color: AppColors.PRIMARY,
+            ),
           ),
-          FutureBuilder(
-            future: getMealConfig(),
-            builder: ((context, snapshot) {
-              if (snapshot.hasData && snapshot.data is String) {
-                return Text(
-                  snapshot.data as String,
-                  style: AppTextStyle.text(),
-                  textAlign: TextAlign.center,
-                );
-              }
-              return SizedBox();
-            }),
-          ),
-          SizedBox(
-            height: 8,
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                "Repas concerné :",
+                style: AppTextStyle.text(color: AppColors.PRIMARY),
+                textAlign: TextAlign.center,
+              ),
+              FutureBuilder(
+                future: getMealConfig(),
+                builder: ((context, snapshot) {
+                  if (snapshot.hasData && snapshot.data is String) {
+                    return Text(
+                      snapshot.data as String,
+                      style: AppTextStyle.text(),
+                      textAlign: TextAlign.center,
+                    );
+                  }
+                  return SizedBox();
+                }),
+              ),
+              SizedBox(
+                height: 8,
+              )
+            ],
           )
         ],
       ),

@@ -104,7 +104,7 @@ class _ScanMealTicketScreenState extends State<ScanMealTicketScreen> {
     return Container(
         child: ListView(
       padding: EdgeInsets.only(top: 16, bottom: 64, left: 16, right: 16),
-      shrinkWrap: true,
+      shrinkWrap: false,
       children: <Widget>[
         // QR Code
         Container(

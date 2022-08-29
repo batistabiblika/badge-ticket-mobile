@@ -41,7 +41,7 @@ class CommandTicketInfoWidget extends StatelessWidget {
               Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
             Text(
               'Information à propos du ticket n°',
-              style: AppTextStyle.text(color: AppColors.PRIMARY),
+              style: AppTextStyle.text(),
             ),
             Text(
               number,
@@ -76,7 +76,7 @@ class CommandTicketInfoWidget extends StatelessWidget {
         ),
         Text(
           'Repas :',
-          style: AppTextStyle.head3(),
+          style: AppTextStyle.head3(color: AppColors.PRIMARY),
         ),
 
         Table(
@@ -146,8 +146,8 @@ class CommandTicketInfoWidget extends StatelessWidget {
                 color: AppColors.PRIMARY,
               ), */
               Text(
-                'Séjour :',
-                style: AppTextStyle.head3(),
+                'Hébergement :',
+                style: AppTextStyle.head3(color: AppColors.PRIMARY),
               ),
               Table(
                 defaultVerticalAlignment: TableCellVerticalAlignment.middle,
@@ -165,7 +165,7 @@ class CommandTicketInfoWidget extends StatelessWidget {
                     Text("Dim", textAlign: TextAlign.center)
                   ]),
                   TableRow(children: [
-                    const Text("Matory"),
+                    const Text("Jour"),
                     enabled(commandMeal.sleeping.hasMer),
                     enabled(commandMeal.sleeping.hasJeu),
                     enabled(commandMeal.sleeping.hasVen),
@@ -189,7 +189,7 @@ class CommandTicketInfoWidget extends StatelessWidget {
               ), */
               Text(
                 'Transport :',
-                style: AppTextStyle.head3(),
+                style: AppTextStyle.head3(color: AppColors.PRIMARY),
               ),
               Table(
                 defaultVerticalAlignment: TableCellVerticalAlignment.middle,

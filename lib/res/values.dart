@@ -3,11 +3,12 @@ import 'package:flutter/material.dart';
 class AppColors {
   // COLORS
   // static var PRIMARY = Colors.white;
-  static const Color PRIMARY = Color(0xFF374355);
-  static const Color PRIMARY_TRANSLUSCENT = Color(0x22374355);
-  static const Color PRIMARY5 = Color(0x0D374355);
-  static const Color PRIMARY30 = Color(0x4D374355);
-  static const Color PRIMARY70 = Color(0xB2374355);
+  // static const Color PRIMARY = Color(0xFF374355);
+  static const Color PRIMARY = Color(0xFF214B87);
+  static const Color PRIMARY_TRANSLUSCENT = Color(0x22214B87);
+  static const Color PRIMARY5 = Color(0x0D214B87);
+  static const Color PRIMARY30 = Color(0x4D214B87);
+  static const Color PRIMARY70 = Color(0xB2214B87);
   static const Color WHITE = Color(0xFFFFFFFF);
   static const Color SECONDARY = Colors.green;
   static const Color GREEN = Colors.green;
@@ -56,6 +57,10 @@ class AppSizes {
   // Fields
   static const double FIELD_HEIGHT = 48;
   static const double FIELD_BORDER_RADIUS = 12;
+
+  // buttons
+  static const double BUTTON_BORDER_RADIUS = 24;
+  static const double BUTTON_TILE_BORDER_RADIUS = 16;
 
   // Fonts size
   static const double H2 = 24;
