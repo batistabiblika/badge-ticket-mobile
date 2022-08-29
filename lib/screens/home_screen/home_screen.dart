@@ -105,7 +105,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     width: 8,
                   ),
                   Expanded(
-                      child: ButtonTile("Vérifier ticket",
+                      child: ButtonTile("Information ticket",
                           height: 80,
                           icon: CupertinoIcons.tickets,
                           color: AppColors.PRIMARY, onPressed: () {

@@ -42,7 +42,7 @@ class _CommandTicketInfoScreen extends State<CommandTicketInfoScreen> {
       // children: [BadgeInfoWidget(badge: _badge)],
       children: [
         FutureBuilder(
-            future: CommandTicket.fetchCommandMeal(_ticketNumber),
+            future: CommandTicket.fetchCommandTicket(_ticketNumber),
             builder: (context, snapshot) {
               if (snapshot.hasError) {
                 return const Center(

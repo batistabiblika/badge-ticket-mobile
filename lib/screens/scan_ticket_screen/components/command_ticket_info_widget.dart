@@ -9,16 +9,28 @@ class CommandTicketInfoWidget extends StatelessWidget {
   final String number;
   final String? information;
   final bool? showSleeping;
+  final bool? showBus;
   const CommandTicketInfoWidget({
     Key? key,
     required this.number,
     required this.commandMeal,
     this.information,
     this.showSleeping = true,
+    this.showBus = true,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    String? size;
+    if (commandMeal.size != null) {
+      if (commandMeal.size == "DAILY_KID" ||
+          commandMeal.size == "ALL_TIME_KID") {
+        size = "Ticket Ankizy";
+      } else {
+        size = "Ticket Lehibe";
+      }
+    }
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
@@ -114,6 +126,15 @@ class CommandTicketInfoWidget extends StatelessWidget {
           ],
         ),
 
+        if (size != null)
+          Container(
+            margin: EdgeInsets.only(top: 8, bottom: 8),
+            child: Text(
+              size,
+              style: AppTextStyle.head3(),
+            ),
+          ),
+
         if (showSleeping != null && showSleeping!)
           Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -144,12 +165,78 @@ class CommandTicketInfoWidget extends StatelessWidget {
                     Text("Dim", textAlign: TextAlign.center)
                   ]),
                   TableRow(children: [
-                    const Text("Date"),
+                    const Text("Matory"),
                     enabled(commandMeal.sleeping.hasMer),
                     enabled(commandMeal.sleeping.hasJeu),
                     enabled(commandMeal.sleeping.hasVen),
                     enabled(commandMeal.sleeping.hasSam),
                     enabled(commandMeal.sleeping.hasDim),
+                  ]),
+                ],
+              ),
+            ],
+          ),
+
+        if (showBus != null && showBus! && commandMeal.bus != null)
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              SizedBox(
+                height: 24,
+              ),
+              /* Divider(
+                color: AppColors.PRIMARY,
+              ), */
+              Text(
+                'Transport :',
+                style: AppTextStyle.head3(),
+              ),
+              Table(
+                defaultVerticalAlignment: TableCellVerticalAlignment.middle,
+                border: TableBorder(
+                    horizontalInside: BorderSide(color: AppColors.PRIMARY)),
+                children: [
+                  const TableRow(children: [
+                    SizedBox(
+                      height: 32,
+                    ),
+                    Text("Merc", textAlign: TextAlign.center),
+                    Text("Jeu", textAlign: TextAlign.center),
+                    Text("Ven", textAlign: TextAlign.center),
+                    Text("Sam", textAlign: TextAlign.center),
+                    Text("Dim", textAlign: TextAlign.center)
+                  ]),
+                  TableRow(children: [
+                    Container(
+                      padding: const EdgeInsets.only(top: 8),
+                      // height: 32,
+                      child: const Text("Ligne"),
+                    ),
+                    Container(
+                      padding: const EdgeInsets.only(top: 8),
+                      child: Text(commandMeal.bus!.mer,
+                          textAlign: TextAlign.center),
+                    ),
+                    Container(
+                      padding: const EdgeInsets.only(top: 8),
+                      child: Text(commandMeal.bus!.jeu,
+                          textAlign: TextAlign.center),
+                    ),
+                    Container(
+                      padding: const EdgeInsets.only(top: 8),
+                      child: Text(commandMeal.bus!.ven,
+                          textAlign: TextAlign.center),
+                    ),
+                    Container(
+                      padding: const EdgeInsets.only(top: 8),
+                      child: Text(commandMeal.bus!.sam,
+                          textAlign: TextAlign.center),
+                    ),
+                    Container(
+                      padding: const EdgeInsets.only(top: 8),
+                      child: Text(commandMeal.bus!.dim,
+                          textAlign: TextAlign.center),
+                    ),
                   ]),
                 ],
               ),

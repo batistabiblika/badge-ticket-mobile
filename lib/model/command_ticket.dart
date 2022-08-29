@@ -1,44 +1,30 @@
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
+import 'package:fbb_reg_ticket/model/bus_ticket.dart';
+import 'package:fbb_reg_ticket/model/days_status.dart';
 import 'package:fbb_reg_ticket/res/styles.dart';
 import 'package:fbb_reg_ticket/res/values.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class DaysStatus {
-  bool hasMer;
-  bool hasJeu;
-  bool hasVen;
-  bool hasSam;
-  bool hasDim;
-  DaysStatus({
-    required this.hasMer,
-    required this.hasJeu,
-    required this.hasVen,
-    required this.hasSam,
-    required this.hasDim,
-  });
-  factory DaysStatus.fromJson(Map<String, dynamic> json) {
-    return DaysStatus(
-      hasMer: json['hasMer'],
-      hasJeu: json['hasJeu'],
-      hasVen: json['hasVen'],
-      hasSam: json['hasSam'],
-      hasDim: json['hasDim'],
-    );
-  }
-}
-
+/**
+ * Map to command ticket object from API
+ */
 class CommandTicket {
-  // String number;
+  String? number;
+  String? size;
+  BusTicket? bus;
   DaysStatus breakfast;
   DaysStatus lunch;
   DaysStatus dinner;
   DaysStatus sleeping;
   CommandTicket({
+    this.number,
+    this.size,
     // required this.number,
+    this.bus,
     required this.breakfast,
     required this.lunch,
     required this.dinner,
@@ -47,7 +33,9 @@ class CommandTicket {
 
   factory CommandTicket.fromJson(Map<String, dynamic> json) {
     return CommandTicket(
-      // number: json['number'],
+      number: json['number'],
+      size: json['size'],
+      bus: BusTicket.fromJson(json['bus']),
       breakfast: DaysStatus.fromJson(json['breakfast']),
       lunch: DaysStatus.fromJson(json['lunch']),
       dinner: DaysStatus.fromJson(json['dinner']),
@@ -57,7 +45,9 @@ class CommandTicket {
 
   factory CommandTicket.empty() {
     return CommandTicket(
-      // number: "",
+      number: "",
+      size: "",
+      bus: BusTicket(mer: "", jeu: "", ven: "", sam: "", dim: ""),
       breakfast: DaysStatus(
           hasMer: false,
           hasJeu: false,
@@ -85,7 +75,10 @@ class CommandTicket {
     );
   }
 
-  static Future<dynamic?> fetchCommandMeal(String commandNumber) async {
+  /**
+   * Load command ticket from API
+   */
+  static Future<dynamic?> fetchCommandTicket(String commandNumber) async {
     print('Fetching data');
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     String host = prefs.getString('host') ?? AppSettings.HOST;
@@ -126,7 +119,10 @@ class CommandTicket {
     return null;
   }
 
-  static Future<String?> consumeCommandMeal(String commandNumber) async {
+  /**
+   * Consume command ticket
+   */
+  static Future<String?> consumeCommandTicket(String commandNumber) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     print('Fetching data');
     String host = prefs.getString('host') ?? AppSettings.HOST;

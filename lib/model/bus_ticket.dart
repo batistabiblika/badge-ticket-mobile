@@ -1,26 +1,26 @@
 class BusTicket {
-  final String id;
-  final String lineDirection;
-  final int quantity;
-
-  // replace this by badge object later
-  // Badge linkedToBadge;
-  final String linkedToName;
+  String mer; // axe_1, axe_2
+  String jeu;
+  String ven;
+  String sam;
+  String dim;
 
   // bus ticket
-  const BusTicket({
-    required this.id,
-    required this.lineDirection,
-    required this.quantity,
-    required this.linkedToName,
+  BusTicket({
+    required this.mer,
+    required this.jeu,
+    required this.ven,
+    required this.sam,
+    required this.dim,
   });
 
   factory BusTicket.fromJson(Map<String, dynamic> json) {
     return BusTicket(
-      id: json['id'],
-      lineDirection: json['lineDirection'],
-      quantity: json['quantity'],
-      linkedToName: json['linkedToName'],
+      mer: json['MER'],
+      jeu: json['JEU'],
+      ven: json['VEN'],
+      sam: json['SAM'],
+      dim: json['DIM'],
     );
   }
 }

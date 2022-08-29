@@ -28,7 +28,7 @@ class _ConsumeMealTicketWidgetState extends State<ConsumeMealTicketWidget> {
   }
 
   void consumeMeal() async {
-    var result = await CommandTicket.consumeCommandMeal(_ticketNumber);
+    var result = await CommandTicket.consumeCommandTicket(_ticketNumber);
     // print(result);
     switch (result) {
       case "VALIDATED":
@@ -56,7 +56,7 @@ class _ConsumeMealTicketWidgetState extends State<ConsumeMealTicketWidget> {
     return Container(
       child: FutureBuilder(
         // future: verifyTicket(),
-        future: CommandTicket.fetchCommandMeal(_ticketNumber),
+        future: CommandTicket.fetchCommandTicket(_ticketNumber),
         builder: (context, snapshot) {
           if (snapshot.hasError) {
             return const Center(child: Text('An error has occured'));
@@ -100,6 +100,7 @@ class _ConsumeMealTicketWidgetState extends State<ConsumeMealTicketWidget> {
               information: _information,
               number: _ticketNumber,
               showSleeping: false,
+              showBus: false,
               commandMeal: commandMeal),
         ),
         const SizedBox(

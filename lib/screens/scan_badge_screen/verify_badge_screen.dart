@@ -104,7 +104,7 @@ class _VerifyBadgeScreenState extends State<VerifyBadgeScreen> {
                   },
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return 'Entrer le numéro du badge SVP';
+                      return 'Entrer le numéro du badge SVP!';
                     }
                     return null;
                   },
